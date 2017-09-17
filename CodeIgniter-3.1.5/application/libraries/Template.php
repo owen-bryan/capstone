@@ -9,7 +9,9 @@ class Template
 		$CI =& get_instance();
 		
 		$CI->load->view('header',$args);
+		$CI->load->view('navigation',$args);
 		$CI->load->view($view, $args);
+		$CI->load->view('footer', $args);
 	}
 	
 }
