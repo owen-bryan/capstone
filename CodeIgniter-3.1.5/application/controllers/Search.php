@@ -16,9 +16,10 @@ class Search extends CI_Controller {
 	
 	public function index()
 	{
-	
+		
+		
 		$if(isset($_POST)){
-			$query = $this->db->query('Select ad_id, user_id, item_description, ad_title, item_condition, item_price, post_date from ADS where public = 1, reported = 0, status != \'sold\'');
+			$query = $this->db->query('Select ad_id, user_id, item_description, ad_title, item_condition, item_price, post_date, image_location, user_name from ADS join USERS on ADS.user_id = USERS.user_id join IMAGES on  IMAGES.user_id = ADS.user_id where public = 1, reported = 0, status != \'sold\'');
 			foreach($query->result_array as $row)
 			{
 				$this->TPL['results'][]['title'] = $row['ad_title'];
@@ -33,5 +34,7 @@ class Search extends CI_Controller {
 		
 		$this->template->show('search', $this->TPL);
 	}
-
+	
+	
+	public 
 }
