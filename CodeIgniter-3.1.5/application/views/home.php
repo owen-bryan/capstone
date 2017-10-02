@@ -1,5 +1,5 @@
 
-<div class="conmtainer" >
+<div class="container" >
 	<div class="row">
 		<div class="row">
 			<h1 class="text-center">Card Trader</h1>
@@ -8,7 +8,7 @@
 			<form action="<?= base_url() . "index.php?/Search"?>" method="post" class="form-inline">
 				<div class="row">
 					<div class="text-center">
-						<input type="text" class="form-control" placeholder="Enter search here"/>
+						<input type="text" class="form-control" name="search_string" id="search_string" placeholder="Enter search here"/>
 						<select name="categories" class="form-control">
 							<option value="all">Choose a category</option>
 						</select>

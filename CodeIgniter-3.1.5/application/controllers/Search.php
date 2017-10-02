@@ -18,7 +18,7 @@ class Search extends CI_Controller {
 	{
 		
 		
-		$if(isset($_POST)){
+		if(isset($_POST['search_string'])){
 			$query = $this->db->query('Select ad_id, user_id, item_description, ad_title, item_condition, item_price, post_date, image_location, user_name from ADS join USERS on ADS.user_id = USERS.user_id join IMAGES on  IMAGES.user_id = ADS.user_id where public = 1, reported = 0, status != \'sold\'');
 			foreach($query->result_array as $row)
 			{
@@ -36,5 +36,4 @@ class Search extends CI_Controller {
 	}
 	
 	
-	public 
 }
