@@ -4,7 +4,7 @@
 			<ul class= "nav navbar-nav">
 				
 				<? if ($page != "Home") { ?>
-				<li class="nav-item"><a class="nav-link" href="header.html">Home</a></li>
+				<li class="nav-item"><a class="nav-link" href="<?= base_url() . "index.php?/Home"?>">Home</a></li>
 				<? } ?>
 				<? if (isset($loggedIn) && $loggedIn != false) { ?>
 				<li class="nav-item"><a class="nav-link" href="header.html">Post an Ad</a></li>
@@ -13,7 +13,7 @@
 				<li class="nav-item"><a class="nav-link" href="header.html">Log out</a></li>
 				<? } else {?>
 				<li class="nav-item"><a class="nav-link" href="header.html">Log in</a></li>
-				<li class="nav-item"><a class="nav-link" href="header.html">Sign up</a></li>
+				<li class="nav-item"><a class="nav-link" href="<?= base_url() . "index.php?/Signup" ?>">Sign up</a></li>
 				<? } ?>
 			</ul>
 			

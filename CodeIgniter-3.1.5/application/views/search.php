@@ -8,40 +8,43 @@
 		
 		<div class="container">
 			<div class="panel panel-default col-md-8">
-				<? if (isset($results)) { ?>
+				<? if (isset($results)) { 
+					foreach($results as $row){
+				?>
 				<div class="row">
 					<div class="container col-md-2">
 						
-						<img src="<?= $results['img'][1] ?>"/>
+						<img src="<?= $row['img']?>"/>
 					
 					</div>
 					<div class="container col-md-8">
 						<div class="row">
-							<p><?= $results['title']?></p>
+							<p><?= $row['title']?></p>
 						</div>
 						<div class="row">
-							<p>Location: <?= $results['location']?></p>
+							<p>Location: <?= $row['location']?></p>
 						</div>
 						<div class="row">
-							<p>Date posted: <?= $results['date']?></p>
+							<p>Date posted: <?= $row['date']?></p>
 						</div>
 						<div class="row">
-							<p><?= $results['desc']?></p>
+							<p><?= $row['desc']?></p>
 						</div>
 						<div class="row">
-							<p>Sold by:<?= $results['user']?></p>
+							<p>Sold by:<?= $row['user']?></p>
 						</div>
 					</div>
 					<div class="container col-md-2">
 						<div class="row">
-							<p><?= $results['price']?></p>
+							<p><?= $row['price']?></p>
 						</div>
 						<div class="row">
-							<p>Condition: <?= $results['condition']?></p>
+							<p>Condition: <?= $row['condition']?></p>
 						</div>
 					</div>
 				</div>
-				<? } else { ?>
+				<? } 
+				} else { ?>
 				<p>No results found</p>
 				<? } ?>
 			</div>

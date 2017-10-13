@@ -18,8 +18,10 @@ class Search extends CI_Controller {
 	{
 		
 		
-		if(isset($_POST['search_string'])){
-			$query = $this->db->query('Select ad_id, user_id, item_description, ad_title, item_condition, item_price, post_date, image_location, user_name from ADS join USERS on ADS.user_id = USERS.user_id join IMAGES on  IMAGES.user_id = ADS.user_id where public = 1, reported = 0, status != \'sold\'');
+		if(isset($_GET['search_string'])){
+			/*$query = $this->db->query(
+			'Select ad_id, user_id, item_description, ad_title, item_condition, item_price, post_date, image_location, user_name from ADS where ad_title = ? public = 1, reported = 0, status != \'sold\''
+			);
 			foreach($query->result_array as $row)
 			{
 				$this->TPL['results'][]['title'] = $row['ad_title'];
@@ -29,9 +31,10 @@ class Search extends CI_Controller {
 				$this->TPL['results'][]['date'] = $row['post_date'];
 				$this->TPL['results'][]['location'] = $row['item_condition'];
 				$this->TPL['results'][]['img'] = $row['item_condition'];
-			}
+			}*/
 		}
 		
+		$this->TPL['results'] = null;
 		$this->template->show('search', $this->TPL);
 	}
 	
