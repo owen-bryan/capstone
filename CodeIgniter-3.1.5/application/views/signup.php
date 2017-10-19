@@ -1,64 +1,110 @@
-<div class="container-fluid">
-	<div class="row col-md-offset-3 col-md-6">
+<div class="container-fluid  col-md-offset-3 col-md-6">
+	<div class="row">
 		<div class= "container panel panel-default">
+			<h2>Sign up</h2>
+			<hr/>
 			<form method="post" action="<?= base_url() . "index.php?/Signup/addUser"?>" class="form-horizontal">
 			
 				<div class="form-group">
-					<label class="form-label" for="uname">User Name:</label>
-					<input type="text" class="form-control" id="uname" name="uname"/>
+					<label class="control-label col-md-2" for="uname">User Name:</label>
+					<div class="col-md-6">
+						<input type="text" class="form-control" id="uname" name="uname"/>
+					</div>
 				</div>
 				<div class="form-group">
-					<label class="form-label" for="password">Password:</label>
-					<input type="text" class="form-control" id="password" name="password"/>
+					<label class="control-label col-md-2" for="password">Password:</label>
+					<div class="col-md-6">
+						<input type="text" class="form-control" id="password" name="password"/>
+					</div>
 				</div>
 				<div class="form-group">
-					<label class="form-label" for="confirm_password">Confirm password:</label>
-					<input type="text" class="form-control" id="confirm_password" name="confirm_password"/>
+					<label class="control-label col-md-2" for="confirm_password">Confirm password:</label>
+					<div class="col-md-6">
+						<input type="text" class="form-control" id="confirm_password" name="confirm_password"/>
+					</div>
 				</div>
 				<div class="form-group">
-					<label class="form-label" for="sec_question">Security question:</label>
-					<input type="text" class="form-control" id="sec_question" name="sec_question"/>
+					<label class="control-label col-md-2" for="sec_question">Security question:</label>
+					<div class="col-md-6">
+						<input type="text" class="form-control" id="sec_question" name="sec_question"/>
+					</div>
 				</div>
 				<div class="form-group">
-					<label class="form-label" for="sec_answer">Answer:</label>
-					<input type="text" class="form-control" id="sec_answer" name="sec_answer"/>
+					<label class="control-label col-md-2" for="sec_answer">Answer:</label>
+					<div class="col-md-6">
+						<input type="text" class="form-control" id="sec_answer" name="sec_answer"/>
+					</div>
 				</div>
 				<div class="form-group">
-					<label class="form-label" for="email">Email:</label>
-					<input type="text" class="form-control" id="email" name="email"/>
+					<label class="control-label col-md-2" for="email">Email:</label>
+					<div class="col-md-6">
+						<input type="text" class="form-control" id="email" name="email"/>
+					</div>
 				</div>
 				<div class="form-group">
-					<label class="form-label" for="confirm_email">Confirm Email:</label>
-					<input type="text" class="form-control" id="confirm_email" name="confirm_email"/>
+					<label class="control-label col-md-2" for="confirm_email">Confirm Email:</label>
+					<div class="col-md-6">
+						<input type="text" class="form-control" id="confirm_email" name="confirm_email"/>
+					</div>
 				</div>
 				<div class="form-group">
-					<label class="form-label" for="fname">First Name:</label>
-					<input type="text" class="form-control" id="fname" name="fname"/>
+					<label class="control-label col-md-2" for="fname">First Name:</label>
+					<div class="col-md-6">
+						<input type="text" class="form-control" id="fname" name="fname"/>
+					</div>
 				</div>
 				<div class="form-group">
-					<label class="form-label" for="lname">Last Name:</label>
-					<input type="text" class="form-control" id="lname" name="lname"/>
+					<label class="control-label col-md-2" for="lname">Last Name:</label>
+					<div class="col-md-6">
+						<input type="text" class="form-control" id="lname" name="lname"/>
+					</div>
 				</div>
 				<div class="form-group">
-					<label class="form-label" for="address">Address:</label>
-					<input type="text" class="form-control" id="address" name="address"/>
+					<label class="control-label col-md-2" for="address">Address:</label>
+					<div class="col-md-6">
+						<input type="text" class="form-control" id="address" name="address"/>
+					</div>
 				</div>
 				<div class="form-group">
-					<label class="form-label" for="city">City:</label>
-					<input type="text" class="form-control" id="city" name="city"/>
+					<label class="control-label col-md-2" for="city">City:</label>
+					<div class="col-md-6">
+						<input type="text" class="form-control" id="city" name="city"/>
+					</div>
 				</div>
 				<div class="form-group">
-					<label class="form-label" for="province">Province:</label>
-					<input type="text" class="form-control" id="province" name="province"/>
+					<label class="control-label col-md-2" for="province">Province:</label>
+					<div class="col-md-6">
+						<select  class="form-control" id="province" name="province">
+							<option value="Alberta">Alberta</option>
+							<option value="British Columbia">British Columbia</option>
+							<option value="Manitoba">Manitoba</option>
+							<option value="New Brunswick">New Brunswick</option>
+							<option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
+							<option value="Northwest Territories">Northwest Territories</option>
+							<option value="Nova Scotia">Nova Scotia</option>
+							<option value="Nunavut">Nunavut</option>
+							<option value="Ontario">Ontario</option>
+							<option value="Prince Edward Island">Prince Edward Island</option>
+							<option value="Quebec">Quebec</option>
+							<option value="Saskatchewan">Saskatchewan</option>
+							<option value="Yukon">Yukon</option>
+						</select>
+					</div>
 				</div>
 				<div class="form-group">
-					<label class="form-label" for="is_valid">Are you sure this information is Valid:</label>
-					<input type="checkbox" class="form-control" id="is_valid" name="is_valid" value="true"/>Yes, I am sure
+					<div class="col-md-offset-2 col-md-6">
+						<div class="checkbox">
+							<label><input type="checkbox" id="is_valid" name="is_valid" value="true"/>Are you sure this information is valid</label>
+						</div>
+					</div>
 				</div>
 				<div class="form-group">
-					<input type="submit" class="form-control" value="Submit"/>
-					<input type="Reset" class="form-control"  value="Reset"/>
-					
+					<div class="col-md-offset-2 col-md-3">
+						<input type="submit" class="form-control" value="Submit"/>
+					</div>
+					<div class="col-md-3">
+						<input type="Reset" class="form-control"  value="Reset"/>
+					</div>
 				</div>
 			</form>
 		</div>
