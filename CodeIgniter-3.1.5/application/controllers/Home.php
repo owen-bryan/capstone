@@ -12,6 +12,20 @@ class Home extends CI_Controller {
 		$this->TPL['page'] = "Home";
 		$this->TPL['loggedIn'] = false;
 		
+		$query = $this->db->query("SELECT * FROM CATEGORIES;");
+		
+		if($query)
+		{
+			$i = 0;
+			foreach($query->result_array() as $row)
+			{
+				$this->TPL['categories'][$i]['id'] = $row['category_id'];
+				$this->TPL['categories'][$i]['name'] = $row['category_name'];
+				$i++;
+			}
+		}
+		
+		
 	}
 	
 	public function index()

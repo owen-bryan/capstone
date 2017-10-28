@@ -9,7 +9,7 @@ class Signup extends CI_Controller {
 	{
 		parent::__construct();
 		
-		$this->TPL['page'] = "Signup";
+		$this->TPL['page'] = "Sign up";
 		$this->TPL['loggedIn'] = false;
 		
 	}

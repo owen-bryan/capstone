@@ -5,9 +5,9 @@
 			<hr/>
 			<form method="post" action="<?= base_url() . "index.php?/Signup/addUser"?>" class="form-horizontal">
 				<div class="form-group">
-					<label class="control-label col-md-3" for="uname">User Name:</label>
+					<label class="control-label col-md-3" for="title">Title:</label>
 					<div class="col-md-6">
-						<input type="text" class="form-control" id="uname" name="uname"/>
+						<input type="text" class="form-control" id="title" name="title"/>
 					</div>
 				</div>
 				<div class="form-group">

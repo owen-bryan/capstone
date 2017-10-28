@@ -12,7 +12,7 @@
 				<li class="nav-item"><a class="nav-link" href="header.html">Account</a></li>
 				<li class="nav-item"><a class="nav-link" href="header.html">Log out</a></li>
 				<? } else {?>
-				<li class="nav-item"><a class="nav-link" href="header.html">Log in</a></li>
+				<li class="nav-item"><a class="nav-link" href="<?= base_url() . "index.php?/Login"?>">Log in</a></li>
 				<li class="nav-item"><a class="nav-link" href="<?= base_url() . "index.php?/Signup" ?>">Sign up</a></li>
 				<? } ?>
 			</ul>
