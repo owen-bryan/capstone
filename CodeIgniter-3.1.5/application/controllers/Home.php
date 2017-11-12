@@ -10,7 +10,7 @@ class Home extends CI_Controller {
 		parent::__construct();
 		
 		$this->TPL['page'] = "Home";
-		$this->TPL['loggedIn'] = false;
+		$this->TPL['loggedIn'] = $this->user_auth->validSessionExists();
 		
 		$query = $this->db->query("SELECT * FROM CATEGORIES;");
 		

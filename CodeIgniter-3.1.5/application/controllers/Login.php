@@ -10,7 +10,7 @@ class Login extends CI_Controller {
 		parent::__construct();
 		
 		$this->TPL['page'] = "Log in";
-		$this->TPL['loggedIn'] = false;
+		$this->TPL['loggedIn'] = $this->user_auth->validSessionExists();;
 		
 	}
 	
@@ -18,6 +18,8 @@ class Login extends CI_Controller {
 	{
 		
 		$this->template->show('login', $this->TPL);
+		
+		
 	}
 	
 	public function login()

@@ -10,7 +10,7 @@ class Admin extends CI_Controller {
 		parent::__construct();
 		
 		$this->TPL['page'] = "Admin";
-		$this->TPL['loggedIn'] = false;
+		$this->TPL['loggedIn'] = $this->user_auth->validSessionExists();;
 		
 	}
 	

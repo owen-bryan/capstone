@@ -10,7 +10,7 @@ class User extends CI_Controller {
 		parent::__construct();
 		
 		$this->TPL['page'] = "User";
-		$this->TPL['loggedIn'] = false;
+		$this->TPL['loggedIn'] = $this->user_auth->validSessionExists();;
 		
 	}
 	
