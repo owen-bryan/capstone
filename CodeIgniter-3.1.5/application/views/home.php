@@ -34,12 +34,22 @@
 				</div>
 			</div>
 			<div class="row">
-				<div id="advanced_options" class="col-md-12 hidden">
-					<div class ="panel panel-default">
-						<h2>Advanced Search</h2>
-						<hr/>
-						<div class="container">
-									
+				<div id="advanced_options" class="hidden">
+					<div class="panel panel-default">
+						<div style="padding-left: 15px; padding-right: 15px;">
+							<h2>Advanced Search</h2>
+							<hr/>
+							<div class="row">
+								<div class="col-md-4">
+									<p>Hello</p>
+								</div>
+								<div class="col-md-4">
+									<p>Hello</p>
+								</div>
+								<div class="col-md-4">
+									<p>Hello</p>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

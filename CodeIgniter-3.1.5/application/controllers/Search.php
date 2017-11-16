@@ -10,8 +10,9 @@ class Search extends CI_Controller {
 		parent::__construct();
 		
 		$this->TPL['page'] = "Search";
-		$this->TPL['loggedIn'] = $this->user_auth->validSessionExists();;
+		$this->TPL['loggedIn'] = $this->user_auth->validSessionExists();
 		
+
 	}
 	
 	public function index()
