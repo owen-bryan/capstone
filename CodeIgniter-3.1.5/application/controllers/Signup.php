@@ -43,8 +43,8 @@ class Signup extends CI_Controller {
 			'address' => $this->input->post('address',true),
 			'province' => $this->input->post('province',true),
 			'user_role_id' => 1,
-			'sec_question' => $this->input->post('sec_question',true), 
-			'sec_answer' => $this->input->post('sec_answer',true)
+			'sec_question' => $this->input->post('sec_question', true), 
+			'sec_answer' => $this->input->post('sec_answer', true)
 			];
 			
 			

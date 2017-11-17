@@ -42,5 +42,9 @@ class User_auth {
       }
     }
 	
-	
+	public function redirect($page)
+	{
+		header("Location: " . $page);
+		exit();
+	}
 }

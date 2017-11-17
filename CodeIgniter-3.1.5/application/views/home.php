@@ -35,8 +35,8 @@
 			</div>
 			<div class="row">
 				<div id="advanced_options" class="hidden">
-					<div class="panel panel-default">
-						<div style="padding-left: 15px; padding-right: 15px;">
+					<div class="panel panel-default container-fluid col-md-12">
+						<div >
 							<h2>Advanced Search</h2>
 							<hr/>
 							<div class="row">

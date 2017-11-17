@@ -25,9 +25,25 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<label class="control-label col-md-3" for="condition">Condition:</label>
+					<div class="col-md-6">
+						<select class="form-control" id="condition" name="condition"/>
+							<option>None</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
 					<label class="control-label col-md-3" for="manufacturer">Manufacturer:</label>
 					<div class="col-md-6">
 						<select class="form-control" id="manufacturer" name="manufacturer"/>
+							<option>None</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3" for="brand">Brand:</label>
+					<div class="col-md-6">
+						<select class="form-control" id="brand" name="brand"/>
 							<option>None</option>
 						</select>
 					</div>
@@ -43,6 +59,12 @@
 					<label class="control-label col-md-3" for="description">Description:</label>
 					<div class="col-md-6">
 						<textarea class="form-control"  rows="5" id="description" name="description"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-md-3" for="image">Item Picture:</label>
+					<div class="col-md-6">
+						<input type="file" class="form-control" name="image" id="image"/>
 					</div>
 				</div>
 				<div class="form-group">
