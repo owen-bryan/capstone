@@ -20,7 +20,7 @@ class Signup extends CI_Controller {
 		$this->template->show('signup', $this->TPL);
 	}
 	
-	public function addUser()
+	public function add_user()
 	{
 		if($this->input->post('is_valid') == true){
 			

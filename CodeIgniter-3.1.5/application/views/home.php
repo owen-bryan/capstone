@@ -1,4 +1,3 @@
-
 <div class="container col-md-4 col-md-offset-4" >
 	<div class="row">
 		<div class="text-center">

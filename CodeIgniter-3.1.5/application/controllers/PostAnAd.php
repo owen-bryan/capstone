@@ -18,7 +18,7 @@ class PostAnAd extends CI_Controller {
 
 	public function index()
 	{
-		$this->template->show('postanad', $this->TPL);
+		$this->template->show('post_an_ad', $this->TPL);
 	}
 
 	public function new_ad()

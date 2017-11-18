@@ -20,6 +20,14 @@
 					<div class="col-md-offset-3 col-md-3">
 						<input type="submit" class="form-control" value="Log in"/>
 					</div>
+					<div class="col-md-3">
+						<input type="reset" class="form-control" value="Reset"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-offset-3 col-md-6">
+						<a href="<?= base_url() . "index.php?/Login/forgot_password" ?>">I forgot my password</a>
+					</div>
 				</div>
 			</form>
 		</div>

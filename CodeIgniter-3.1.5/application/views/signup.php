@@ -3,7 +3,7 @@
 		<div class= "container panel panel-default col-md-10">
 			<h2>Sign up</h2>
 			<hr/>
-			<form method="post" action="<?= base_url() . "index.php?/Signup/addUser"?>" class="form-horizontal">
+			<form method="post" action="<?= base_url() . "index.php?/Signup/add_user"?>" class="form-horizontal">
 				<div class="form-group">
 					<label class="control-label col-md-3" for="uname">User Name:</label>
 					<div class="col-md-6">
