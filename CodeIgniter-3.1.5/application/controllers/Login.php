@@ -43,6 +43,23 @@ class Login extends CI_Controller {
 	
 	public function forgot_password()
 	{
-		$this->template->show("forgot_password");
+		$this->template->show("forgot_password", $this->TPL);
+	}
+	
+	public function forgot_password_question()
+	{
+		$username = $this->input->post("uname", true);
+		
+		$sql = "SELECT `recovery_question` FROM `USERS` WHERE `user_name`= ? ;";
+		$query = $this->db->query($sql, $username);
+		if($query)
+		{
+			$row = $query->row_array();
+			
+			if(isset($row))
+			{
+				$this->template->show("forgot_password", $this->TPL);
+			}
+		}
 	}
 }
