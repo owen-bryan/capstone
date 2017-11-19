@@ -7,13 +7,13 @@
 				<div class="form-group">
 					<label class="control-label col-md-3" for="title">Title:</label>
 					<div class="col-md-6">
-						<input type="text" class="form-control" id="title" name="title"/>
+						<input type="text" class="form-control" id="title" name="title" value="<?= set_value('title');?>"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3" for="price">Price:</label>
 					<div class="col-md-6">
-						<input type="text" class="form-control" id="price" name="price"/>
+						<input type="text" class="form-control" id="price" name="price" value="<?= set_value('price');?>"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -51,14 +51,14 @@
 				<div class="form-group">
 					<label class="control-label col-md-3" for="visibility">Visibility:</label>
 					<div class="col-md-6">
-						<label class="radio-inline"><input type="radio" id="visibility" name="visibility" value="true"> Public</input></label>
+						<label class="radio-inline"><input type="radio" id="visibility" name="visibility" value="true" checked> Public</input></label>
 						<label class="radio-inline"><input type="radio" id="visibility" name="visibility" value="false"> Private</input></label>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3" for="description">Description:</label>
 					<div class="col-md-6">
-						<textarea class="form-control"  rows="5" id="description" name="description"></textarea>
+						<textarea class="form-control"  rows="5" id="description" name="description"><?= set_value('description');?></textarea>
 					</div>
 				</div>
 				<div class="form-group">

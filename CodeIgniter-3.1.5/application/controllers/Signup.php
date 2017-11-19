@@ -10,7 +10,7 @@ class Signup extends CI_Controller {
 		parent::__construct();
 		
 		$this->TPL['page'] = "Sign up";
-		$this->TPL['loggedIn'] = $this->user_auth->validSessionExists();
+		$this->TPL['loggedIn'] = $this->user_auth->loggedIn(base_url() . "index.php?/Signup");
 		
 	}
 	
@@ -52,6 +52,12 @@ class Signup extends CI_Controller {
 			
 			$query = $this->db->query($sql, $sign_up_data);
 			
+			if($query)
+			{
+				$this->TPL['name'] = $this->input->post('fname',true);
+				$this->TPL['uname'] = $this->input->post('uname', true);
+				$this->template->show("sign_up_success", $this->TPL);
+			}
 		}
 	}
 }

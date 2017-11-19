@@ -10,7 +10,7 @@ class Login extends CI_Controller {
 		parent::__construct();
 		
 		$this->TPL['page'] = "Log in";
-		$this->TPL['loggedIn'] = $this->user_auth->validSessionExists();;
+		$this->TPL['loggedIn'] = $this->user_auth->loggedIn(base_url() . "index.php?/Login");
 		
 	}
 	
@@ -24,22 +24,17 @@ class Login extends CI_Controller {
 	
 	public function login()
 	{
-		
+		$username = $this->input->post('uname', true);
 		$password = $this->input->post('password', true);
-		echo $password;
 		
-		$sql = "SELECT hash FROM USERS WHERE user_name=?;";
-		$query = $this->db->query($sql, array($this->input->post('uname', true)));
-		
-		
-		if ($query){
-			$row = $query->row_array();
-			if( password_verify($password, $row['hash'])){
-				echo "success";
-			}
-		}
+		$this->TPL['error'] = $this->user_auth->login($username, $password);
+		echo $this->TPL['error'];
 	}
 
+	public function log_out()
+	{
+		$this->user_auth->logout();
+	}
 	
 	public function forgot_password()
 	{

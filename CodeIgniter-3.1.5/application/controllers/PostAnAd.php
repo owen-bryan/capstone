@@ -12,7 +12,7 @@ class PostAnAd extends CI_Controller {
 		parent::__construct();
 		
 		$this->TPL['page'] = "Post an ad";
-		$this->TPL['loggedin'] = $this->user_auth->validSessionExists();
+		$this->TPL['loggedin'] = $this->user_auth->loggedin(base_url() . "index.php?/PostAnAd");
 		
 	}
 
@@ -34,7 +34,7 @@ class PostAnAd extends CI_Controller {
 			}
 			
 			$ad_data = [
-				'user_id' => 2,
+				'user_id' => $_SESSION['user_id'],
 				//'brand_id => $this->input->post('brand, true),
 				'brand_id' => 1,
 				//'category' => $this->input->post('category', true),
@@ -58,6 +58,14 @@ class PostAnAd extends CI_Controller {
 			$sql = "INSERT INTO `ADS`(`user_id`, `brand_id`, `category_id`, `ad_title`, `item_condition`, `item_price`, `item_description`, `post_date`, `bump_date`, `public`)
 					VALUES(?,?,?,?,?,?,?,?,?,?);";
 			$query = $this->db->query($sql, $ad_data);
+			if($query)
+			{
+				echo "SUCCESS";
+			}
+			else
+			{
+				echo "An error has occured";
+			}
 		}
 		else
 		{

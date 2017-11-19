@@ -1,73 +1,73 @@
 <div class="container col-md-offset-3 col-md-6">
 	<div class="row">
-		<div class= "container panel panel-default col-md-10">
+		<div class= "container panel panel-default col-md-offset-1 col-md-10">
 			<h2>Sign up</h2>
 			<hr/>
 			<form method="post" action="<?= base_url() . "index.php?/Signup/add_user"?>" class="form-horizontal">
 				<div class="form-group">
 					<label class="control-label col-md-3" for="uname">User Name:</label>
 					<div class="col-md-6">
-						<input type="text" class="form-control" id="uname" name="uname"/>
+						<input type="text" class="form-control" id="uname" name="uname" value="<?= set_value('uname');?>"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3" for="password">Password:</label>
 					<div class="col-md-6">
-						<input type="password" class="form-control" id="password" name="password"/>
+						<input type="password" class="form-control" id="password" name="password" />
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3" for="confirm_password">Confirm password:</label>
 					<div class="col-md-6">
-						<input type="password" class="form-control" id="confirm_password" name="confirm_password"/>
+						<input type="password" class="form-control" id="confirm_password" name="confirm_password" />
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3" for="sec_question">Security question:</label>
 					<div class="col-md-6">
-						<input type="text" class="form-control" id="sec_question" name="sec_question"/>
+						<input type="text" class="form-control" id="sec_question" name="sec_question" value="<?= set_value('sec_question');?>"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3" for="sec_answer">Answer:</label>
 					<div class="col-md-6">
-						<input type="text" class="form-control" id="sec_answer" name="sec_answer"/>
+						<input type="text" class="form-control" id="sec_answer" name="sec_answer" value="<?= set_value('sec_answer');?>"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3" for="email">Email:</label>
 					<div class="col-md-6">
-						<input type="text" class="form-control" id="email" name="email"/>
+						<input type="text" class="form-control" id="email" name="email" value="<?= set_value('email');?>"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3" for="confirm_email">Confirm Email:</label>
 					<div class="col-md-6">
-						<input type="text" class="form-control" id="confirm_email" name="confirm_email"/>
+						<input type="text" class="form-control" id="confirm_email" name="confirm_email" value="<?= set_value('confirm_email');?>"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3" for="fname">First Name:</label>
 					<div class="col-md-6">
-						<input type="text" class="form-control" id="fname" name="fname"/>
+						<input type="text" class="form-control" id="fname" name="fname" value="<?= set_value('fname');?>"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3" for="lname">Last Name:</label>
 					<div class="col-md-6">
-						<input type="text" class="form-control" id="lname" name="lname"/>
+						<input type="text" class="form-control" id="lname" name="lname" value="<?= set_value('lname');?>"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3" for="address">Address:</label>
 					<div class="col-md-6">
-						<input type="text" class="form-control" id="address" name="address"/>
+						<input type="text" class="form-control" id="address" name="address" value="<?= set_value('address');?>"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3" for="city">City:</label>
 					<div class="col-md-6">
-						<input type="text" class="form-control" id="city" name="city"/>
+						<input type="text" class="form-control" id="city" name="city" value="<?= set_value('city');?>"/>
 					</div>
 				</div>
 				<div class="form-group">
