@@ -5,7 +5,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<form action="<?= base_url() . "index.php?/Search"?>" method="post" class="form-horizontal">
+		<form action="<?= base_url() . "index.php?/SearchHelp"?>" method="post" class="form-horizontal">
 			<div class="row">
 				<div class="">
 					<div class="form-group">

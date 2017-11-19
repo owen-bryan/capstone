@@ -1,6 +1,6 @@
-<div class="container-fluid">
+<div class="container-fluid col-md-10 col-md-offset-1">
 	<div class="row">
-		<div class="container col-md-offset-2 col-md-2">
+		<div class="container col-md-3">
 			<div class="panel panel-default">
 			
 			</div>
@@ -12,14 +12,14 @@
 					foreach($results as $row){
 				?>
 				<div class="row">
-					<div class="container col-md-2">
+					<div class="container col-md-3">
 						
 						<img src="<?= $row['img']?>"/>
 					
 					</div>
-					<div class="container col-md-8">
+					<div class="container col-md-6">
 						<div class="row">
-							<p><?= $row['title']?></p>
+							<a href="<?= base_url() . "indext.php?/Ad/" . $row['user_id']?>"><?= $row['title']?></a>
 						</div>
 						<div class="row">
 							<p>Location: <?= $row['location']?></p>
@@ -34,7 +34,7 @@
 							<p>Sold by:<?= $row['user']?></p>
 						</div>
 					</div>
-					<div class="container col-md-2">
+					<div class="container col-md-3">
 						<div class="row">
 							<p><?= $row['price']?></p>
 						</div>
@@ -43,6 +43,7 @@
 						</div>
 					</div>
 				</div>
+				<hr/>
 				<? } 
 				} else { ?>
 				<p>No results found</p>
