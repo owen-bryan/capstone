@@ -14,7 +14,7 @@
 				<div class="row">
 					<div class="container col-md-3">
 						
-						<img src="<?= $row['img']?>"/>
+						<img class="img-responsive" src="<?= $row['img']?>"/>
 					
 					</div>
 					<div class="container col-md-6">

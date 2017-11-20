@@ -12,7 +12,7 @@ class PostAnAd extends CI_Controller {
 		parent::__construct();
 		
 		$this->TPL['page'] = "Post an ad";
-		$this->TPL['loggedin'] = $this->user_auth->loggedin(base_url() . "index.php?/PostAnAd");
+		$this->TPL['loggedIn'] = $this->user_auth->loggedin(base_url() . "index.php?/PostAnAd");
 		
 	}
 
@@ -57,9 +57,22 @@ class PostAnAd extends CI_Controller {
 			echo "</pre>";
 			
 			
+			
 			if($this->db->insert('ADS', $ad_data))
 			{
 				echo "SUCCESS";
+				$this->db->select('ad_id');
+				$this->db->from('ADS');
+				$this->db->where('user_id', $_SESSION['user_id']);
+				$this->db->where('post_date', $date);
+				$query = $this->db->get();
+				if($query){
+					$details = $query->result_array();
+					
+					$ad_id = $details[0]['ad_id'];
+					
+					$this->upload($ad_id);
+				}
 			}
 			else
 			{
@@ -69,6 +82,33 @@ class PostAnAd extends CI_Controller {
 		else
 		{
 			$this->user_auth->redirect(base_url() . "index.php?/PostAnAd");
+		}
+	}
+	
+	private function upload($ad_id)
+	{
+		$config['upload_path'] = './uploads/';
+		$config['allowed_types'] = 'gif|jpeg|png|jpg';
+		$config['max_size'] = '2048';
+		$config['max_width'] = '2000';
+		$config['max_height'] = '2000';
+		
+		$this->load->library('upload', $config);
+		
+		if( ! $this->upload->do_upload('image'))
+		{
+			echo "<pre>";
+			print_r($this->upload->display_errors());
+			var_dump($_FILES);
+			echo "</pre>";
+			return false;
+		}
+		else
+		{
+			$data = array('upload_data' => $this->upload->data());
+			$file_location = $this->upload->data('file_name');
+			$this->db->insert('IMAGES', array('owner_id' => $_SESSION['user_id'], 'image_location' => $file_location, 'ad_id' => $ad_id));
+			
 		}
 	}
 	

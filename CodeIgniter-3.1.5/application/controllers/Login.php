@@ -12,15 +12,16 @@ class Login extends CI_Controller {
 		$this->TPL['page'] = "Log in";
 		$this->TPL['loggedIn'] = false;
 		
-		if($this->user_auth->validSessionExists())
-		{
-			$this->user_auth->redirect($_SESSION['base_page']);
-		}
+		
 		
 	}
 	
 	public function index()
 	{
+		if($this->user_auth->validSessionExists())
+		{
+			$this->user_auth->redirect($_SESSION['base_page']);
+		}
 		
 		$this->template->show('login', $this->TPL);
 		
