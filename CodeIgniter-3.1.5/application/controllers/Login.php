@@ -10,7 +10,12 @@ class Login extends CI_Controller {
 		parent::__construct();
 		
 		$this->TPL['page'] = "Log in";
-		$this->TPL['loggedIn'] = $this->user_auth->loggedIn(base_url() . "index.php?/Login");
+		$this->TPL['loggedIn'] = false;
+		
+		if($this->user_auth->validSessionExists())
+		{
+			$this->user_auth->redirect($_SESSION['base_page']);
+		}
 		
 	}
 	

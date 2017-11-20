@@ -5,7 +5,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<form action="<?= base_url() . "index.php?/SearchHelp"?>" method="post" class="form-horizontal">
+		<form action="<?= base_url() . "index.php?/Search/display"?>" method="post" class="form-horizontal">
 			<div class="row">
 				<div class="">
 					<div class="form-group">
@@ -13,7 +13,7 @@
 					</div>
 					
 					<div class="form-group">
-						<select name="categories" class="form-control col-md-4">
+						<select name="category" class="form-control col-md-4">
 							<option value="all">Choose a category</option>
 						<? if (isset($categories)) { 
 							foreach($categories as $row) {?>
@@ -39,13 +39,42 @@
 							<h2>Advanced Search</h2>
 							<hr/>
 							<div class="row">
-								<div class="col-md-4">
-									<p>Hello</p>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label class="control-label col-md-4" for="price_range">Price:</label>
+										<div class="col-md-4">
+											<input type="text" class="form-control" id="low_price" name="low_price"/>
+										</div>
+										<div class="col-md-4">
+											<input type="text" class="form-control" id="high_price" name="high_price"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-4" for="manufacturer">Manufacturer:</label>
+										<div class="col-md-8">
+											<select class="form-control" id="manufacturer" name="manufacturer">
+												<option value="all">Select manufacturer</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="brand">Brand:</label>
+										<div class="col-md-9">
+											<select class="form-control" id="brand" name="brand" disabled>
+												<option value="all">Select brand</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="sort">Sort by:</label>
+										<div class="col-md-9">
+											<select class="form-control" id="sort" name="sort" >
+												<option value="newest">Newest</option>
+											</select>
+										</div>
+									</div>
 								</div>
-								<div class="col-md-4">
-									<p>Hello</p>
-								</div>
-								<div class="col-md-4">
+								<div class="col-md-6">
 									<p>Hello</p>
 								</div>
 							</div>
