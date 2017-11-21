@@ -9,8 +9,8 @@ class Admin extends CI_Controller {
 	{
 		parent::__construct();
 		
-		$this->TPL['page'] = "Admin";
-		$this->TPL['loggedIn'] = $this->user_auth->validSessionExists();;
+		$this->TPL['page'] = "Post an ad";
+		$this->TPL['loggedIn'] = $this->user_auth->loggedin(base_url() . "index.php?/PostAnAd");
 		
 	}
 	

@@ -16,6 +16,9 @@
 				<li><a href="<?= base_url() . "index.php?/PostAnAd" ?>">Post an Ad</a></li>
 				<li><a href="header.html">Messages</a></li>
 				<li><a href="header.html">Account</a></li>
+				<? if($_SESSION['access_level'] == "admin"){ ?>
+				<li><a href="<?= base_url() . "index.php?/Admin" ?>">Admin</a></li>
+				<? } ?>
 				<li><a href="<?= base_url() . "index.php?/Login/log_out"?>">Log out</a></li>
 				<? } else {?>
 				<li><a href="<?= base_url() . "index.php?/Login"?>">Log in</a></li>
