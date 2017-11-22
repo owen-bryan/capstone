@@ -12,6 +12,13 @@ class Home extends CI_Controller {
 		$this->TPL['page'] = "Home";
 		$this->TPL['loggedIn'] = $this->user_auth->validSessionExists();
 		
+		
+		
+	}
+	
+	
+	private function get_data()
+	{
 		$query = $this->db->query("SELECT * FROM CATEGORIES;");
 		
 		if($query)
@@ -25,12 +32,40 @@ class Home extends CI_Controller {
 			}
 		}
 		
+		$query = $this->db->query("SELECT DISTINCT `province` FROM `USERS` WHERE `banned`= 0");
+		
+		if($query)
+		{
+			$i = 0;
+			foreach($query->result_array() as $row)
+			{
+				$this->TPL['provinces'][$i] = $row['province'];
+				$i++;
+			}
+		}
+		
+		$query = $this->db->query("SELECT `manufacturer_id`, `manufacturer_name` FROM `MANUFACTURERS`");
+		
+		if($query)
+		{
+			$i = 0;
+			foreach($query->result_array() as $row)
+			{
+				$this->TPL['manufacturers'][$i]['name'] = $row['manufacturer_name'];
+				$this->TPL['manufacturers'][$i]['id'] = $row['manufacturer_id'];
+				$i++;
+			}
+		}
+		
+		// echo "<pre>";
+		// print_r($this->TPL);
+		// echo "</pre>";
 		
 	}
 	
 	public function index()
 	{
-		
+		$this->get_data();
 		$this->template->show('home', $this->TPL);
 	}
 

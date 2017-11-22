@@ -41,7 +41,7 @@
 							<h2>Advanced Search</h2>
 							<hr/>
 							<div class="row">
-								<div class="col-md-6">
+								<div class="col-md-8">
 									<div class="form-group">
 										<label class="control-label col-md-4" for="price_range">Price:</label>
 										<div class="col-md-4">
@@ -56,6 +56,10 @@
 										<div class="col-md-8">
 											<select class="form-control" id="manufacturer" name="manufacturer">
 												<option value="all">Select manufacturer</option>
+												<? if(isset($manufacturers)) {
+													foreach($manufacturers as $manufacturer){ ?>
+												<option value="<?= $manufacturer['id']?>"><?= $manufacturer['name'] ?></option>
+												<? } }?>
 											</select>
 										</div>
 									</div>
@@ -76,25 +80,16 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-4">
 									<div class="form-group">
 										<label class="control-label col-md-3" for="province">Province:</label>
 										<div class="col-md-6">
 											<select class="form-control" id="province" name="province">
 												<option value="all">Province</option>
-												<option value="Alberta">Alberta</option>
-												<option value="British Columbia">British Columbia</option>
-												<option value="Manitoba">Manitoba</option>
-												<option value="New Brunswick">New Brunswick</option>
-												<option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
-												<option value="Northwest Territories">Northwest Territories</option>
-												<option value="Nova Scotia">Nova Scotia</option>
-												<option value="Nunavut">Nunavut</option>
-												<option value="Ontario">Ontario</option>
-												<option value="Prince Edward Island">Prince Edward Island</option>
-												<option value="Quebec">Quebec</option>
-												<option value="Saskatchewan">Saskatchewan</option>
-												<option value="Yukon">Yukon</option>
+												<? if(isset($provinces)){
+													foreach($provinces as $province) { ?>
+												<option value="<?= $province ?>"><?= ucfirst($province) ?></option> 
+												<? } }?>
 											</select>
 										</div>
 									</div>

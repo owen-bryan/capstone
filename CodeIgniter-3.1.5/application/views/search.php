@@ -2,7 +2,16 @@
 	<div class="row">
 		<div class="container col-md-3">
 			<div class="panel panel-default">
-			
+				<div class="row">
+					<div class="container col-md-10 col-md-offset-1">
+						<p><strong>Category:</strong></p>
+						<div class="container">
+							<? if(isset($_GET['category'])){?>
+							<p><?= $this->input->get('category', true); ?></p>
+							<? } ?>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		
