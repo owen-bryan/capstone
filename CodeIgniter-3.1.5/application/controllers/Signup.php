@@ -10,7 +10,12 @@ class Signup extends CI_Controller {
 		parent::__construct();
 		
 		$this->TPL['page'] = "Sign up";
-		$this->TPL['loggedIn'] = $this->user_auth->loggedIn(base_url() . "index.php?/Signup");
+		$this->TPL['loggedIn'] = $this->user_auth->validSessionExists();
+		
+		if($this->TPL['loggedIn'] == true)
+		{
+			$this->user_auth->redirect($_SESSION['base_page']);
+		}
 		
 	}
 	

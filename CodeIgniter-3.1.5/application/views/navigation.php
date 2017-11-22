@@ -10,19 +10,19 @@
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class= "nav navbar-nav">
 				<? if ($page != "Home") { ?>
-				<li><a href="<?= base_url() . "index.php?/Home"?>">Home</a></li>
+				<li><a href="<?= base_url() . "index.php?c=Home"?>">Home</a></li>
 				<? } ?>
 				<? if (isset($loggedIn) && $loggedIn != false) { ?>
-				<li><a href="<?= base_url() . "index.php?/PostAnAd" ?>">Post an Ad</a></li>
+				<li><a href="<?= base_url() . "index.php?c=PostAnAd" ?>">Post an Ad</a></li>
 				<li><a href="header.html">Messages</a></li>
 				<li><a href="header.html">Account</a></li>
 				<? if($_SESSION['access_level'] == "admin"){ ?>
-				<li><a href="<?= base_url() . "index.php?/Admin" ?>">Admin</a></li>
+				<li><a href="<?= base_url() . "index.php?c=Admin" ?>">Admin</a></li>
 				<? } ?>
-				<li><a href="<?= base_url() . "index.php?/Login/log_out"?>">Log out</a></li>
+				<li><a href="<?= base_url() . "index.php?c=Login&m=log_out"?>">Log out</a></li>
 				<? } else {?>
-				<li><a href="<?= base_url() . "index.php?/Login"?>">Log in</a></li>
-				<li><a href="<?= base_url() . "index.php?/Signup" ?>">Sign up</a></li>
+				<li><a href="<?= base_url() . "index.php?c=Login"?>">Log in</a></li>
+				<li><a href="<?= base_url() . "index.php?c=Signup" ?>">Sign up</a></li>
 				<? } ?>
 			</ul>
 			<? if ($page != "Home") { ?>

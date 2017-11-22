@@ -22,7 +22,7 @@ class Search extends CI_Controller {
 	
 	public function display()
 	{	
-		if($_SERVER['REQUEST_METHOD'] = "POST")
+		if($_SERVER['REQUEST_METHOD'] = "GET")
 		{
 			$this->db->select('ADS.ad_id, ADS.user_id, item_description, ad_title, item_condition, item_price, post_date, user_name, brand_name, image_location');
 			$this->db->from('ADS');
@@ -30,34 +30,34 @@ class Search extends CI_Controller {
 			$this->db->join('BRANDS', 'ADS.brand_id = BRANDS.brand_id');
 			$this->db->join('IMAGES', 'ADS.ad_id = IMAGES.ad_id');
 			
-			if(isset($_POST['search_string']))
+			if(isset($_GET['search_string']))
 			{
-				$this->db->like('ad_title', $this->input->post('search_string', true));
+				$this->db->like('ad_title', $this->input->get('search_string', true));
 			}
 			
-			if($this->input->post('category', true) != "all")
+			if($this->input->get('category', true) != "all")
 			{
-				$this->db->where('ADS.category_id', $this->input->post('category', true));
+				$this->db->where('ADS.category_id', $this->input->get('category', true));
 			}
 			
-			if(isset($_POST['low_price']) && $_POST['low_price'] != "")
+			if(isset($_GET['low_price']) && $_GET['low_price'] != "")
 			{
-				$this->db->where('item_price >=', $this->input->post('low_price', true));
+				$this->db->where('item_price >=', $this->input->get('low_price', true));
 			}
 			
-			if(isset($_POST['high_price'])  && $_POST['high_price'] != "")
+			if(isset($_GET['high_price'])  && $_GET['high_price'] != "")
 			{
-				$this->db->where('item_price <=', $this->input->post('high_price', true));
+				$this->db->where('item_price <=', $this->input->get('high_price', true));
 			}
 			
-			if(isset($_POST['brand']))
+			if(isset($_GET['brand']))
 			{
-				$this->db->where('brand_id', $this->input->post('brand', true));
+				$this->db->where('brand_id', $this->input->get('brand', true));
 			}
 			
-			if(isset($_POST['sort']))
+			if(isset($_GET['sort']))
 			{
-				if($this->input->post('sort', true) == "newest")
+				if($this->input->get('sort', true) == "newest")
 				{
 					$this->db->order_by('bump_date DESC');
 				}
