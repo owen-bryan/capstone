@@ -15,8 +15,8 @@ class User_auth {
 	function __construct() 
     {
       error_reporting(E_ALL & ~E_NOTICE);
-      $this->login_page = base_url() . "index.php?/Login";
-      $this->logout_page = base_url() . "index.php?/Home";
+      $this->login_page = base_url() . "index.php?c=Login";
+      $this->logout_page = base_url() . "index.php?c=Home";
     }
 	
 	public function login($username, $password)
@@ -132,11 +132,11 @@ class User_auth {
 		
 		if($this->access_level == "user")
 		{
-			$_SESSION['base_page'] =  base_url() . "index.php?/Home";
+			$_SESSION['base_page'] =  base_url() . "index.php?c=Home";
 		}
 		else if($this->access_level == "admin")
 		{
-			$_SESSION['base_page'] = base_url() . "index.php?/Admin";
+			$_SESSION['base_page'] = base_url() . "index.php?c=Admin";
 		}
 	}
 	

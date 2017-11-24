@@ -3,7 +3,7 @@
 		<div class= "container panel panel-default col-md-10 col-md-offset-1">
 			<h2>Log in</h2>
 			<hr/>
-			<form method="post" action="<?= base_url() . "index.php?/Login/login"?>" class="form-horizontal">
+			<form method="post" action="<?= base_url() . "index.php?c=Login&m=login"?>" class="form-horizontal">
 				<div class="form-group">
 					<label class="control-label col-md-3" for="uname">User Name:</label>
 					<div class="col-md-6">
@@ -26,7 +26,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-offset-3 col-md-6">
-						<a href="<?= base_url() . "index.php?/Login/forgot_password" ?>">I forgot my password</a>
+						<a href="<?= base_url() . "index.php?c=Login&m=forgot_password" ?>">I forgot my password</a>
 					</div>
 				</div>
 			</form>

@@ -1,11 +1,13 @@
-<div class="container col-md-4 col-md-offset-4" >
+<div class="container col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4" >
 	<div class="row">
 		<div class="text-center">
 			<h1>Card Trader</h1>
 		</div>
 	</div>
 	<div class="row">
-		<form action="<?= base_url() . "index.php?/Search/display"?>" method="post" class="form-horizontal">
+		<form action="<?= base_url() . "index.php?c=search&m=display"?>" method="get" class="form-horizontal">
+			<input type="hidden" value="search" name="c"/>
+			<input type="hidden" value="display" name="m"/>
 			<div class="row">
 				<div class="">
 					<div class="form-group">
@@ -39,7 +41,7 @@
 							<h2>Advanced Search</h2>
 							<hr/>
 							<div class="row">
-								<div class="col-md-6">
+								<div class="col-md-8">
 									<div class="form-group">
 										<label class="control-label col-md-4" for="price_range">Price:</label>
 										<div class="col-md-4">
@@ -54,6 +56,10 @@
 										<div class="col-md-8">
 											<select class="form-control" id="manufacturer" name="manufacturer">
 												<option value="all">Select manufacturer</option>
+												<? if(isset($manufacturers)) {
+													foreach($manufacturers as $manufacturer){ ?>
+												<option value="<?= $manufacturer['id']?>"><?= $manufacturer['name'] ?></option>
+												<? } }?>
 											</select>
 										</div>
 									</div>
@@ -74,8 +80,19 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-6">
-									<p>Hello</p>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label class="control-label col-md-3" for="province">Province:</label>
+										<div class="col-md-6">
+											<select class="form-control" id="province" name="province">
+												<option value="all">Province</option>
+												<? if(isset($provinces)){
+													foreach($provinces as $province) { ?>
+												<option value="<?= $province ?>"><?= ucfirst($province) ?></option> 
+												<? } }?>
+											</select>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
