@@ -2,13 +2,16 @@
 	<div class="row">
 		<div class="container col-md-3">
 			<div class="panel panel-default">
-				<div class="row">
-					<div class="container col-md-10 col-md-offset-1">
-						<p><strong>Category:</strong></p>
-						<div class="container">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="container col-md-10">
+							<p><strong>Category:</strong></p>
+							<ul>
 							<? if(isset($_GET['category'])){?>
-							<p><?= $this->input->get('category', true); ?></p>
-							<? } ?>
+							<? 	if( $this->input->get('category') != "all" ) { ?>
+								<li><?= $this->input->get('category', true); ?></li>
+							<? } } ?>
+							</ul>
 						</div>
 					</div>
 				</div>
@@ -20,35 +23,37 @@
 				<? if (isset($results)) { 
 					foreach($results as $row){
 				?>
-				<div class="row">
-					<div class="container col-md-3">
+				<div class="row top15">
+					<div class="container-fluid">
+						<div class="container col-md-3">
+							
+							<img class="img-responsive" src="<?= $row['img']?>"/>
 						
-						<img class="img-responsive" src="<?= $row['img']?>"/>
-					
-					</div>
-					<div class="container col-md-6">
-						<div class="row">
-							<a href="<?= base_url() . "indext.php?/Ad/" . $row['user_id']?>"><?= $row['title']?></a>
 						</div>
-						<div class="row">
-							<p>Location: <?= $row['location']?></p>
+						<div class="container col-md-6">
+							<div class="row">
+								<a href="<?= base_url() . "indext.php?/Ad/" . $row['user_id']?>"><?= $row['title']?></a>
+							</div>
+							<div class="row">
+								<p>Location: <?= $row['location']?></p>
+							</div>
+							<div class="row">
+								<p>Date posted: <?= $row['date']?></p>
+							</div>
+							<div class="row" style="height: 50%; overflow: hidden;">
+								<p><?= $row['desc']?></p>
+							</div>
+							<div class="row">
+								<p>Sold by:<?= $row['user']?></p>
+							</div>
 						</div>
-						<div class="row">
-							<p>Date posted: <?= $row['date']?></p>
-						</div>
-						<div class="row">
-							<p><?= $row['desc']?></p>
-						</div>
-						<div class="row">
-							<p>Sold by:<?= $row['user']?></p>
-						</div>
-					</div>
-					<div class="container col-md-3">
-						<div class="row">
-							<p><?= $row['price']?></p>
-						</div>
-						<div class="row">
-							<p>Condition: <?= $row['condition']?></p>
+						<div class="container col-md-3">
+							<div class="row">
+								<p><?= $row['price']?></p>
+							</div>
+							<div class="row">
+								<p>Condition: <?= $row['condition']?></p>
+							</div>
 						</div>
 					</div>
 				</div>
