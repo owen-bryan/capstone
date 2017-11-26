@@ -3,7 +3,7 @@
 		<div class= "container panel panel-default col-md-10 col-md-offset-1">
 			<h2>New ad</h2>
 			<hr/>
-			<form method="post" action="<?= base_url() . "index.php?/PostAnAd/new_ad"?>" enctype="multipart/form-data" class="form-horizontal">
+			<form method="post" action="<?= base_url() . "index.php?c=PostAnAd&m=new_ad"?>" enctype="multipart/form-data" class="form-horizontal">
 				<div class="form-group">
 					<label class="control-label col-md-3" for="title">Title:</label>
 					<div class="col-md-6">

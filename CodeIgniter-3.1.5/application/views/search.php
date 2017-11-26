@@ -12,14 +12,38 @@
 								<li><?= $this->input->get('category', true); ?></li>
 							<? } } ?>
 							</ul>
+							<p><strong>Condition:</strong></p>
+							<ul>
+								<li>
+									<a href="<?= base_url() . "index.php?c=search&m=display&province=ontario" ?>">Ontario</a>
+								</li>
+							</ul>
+							<ul>
+							
+							</ul>
+							<p><strong>Location:</strong></p>
+							<ul>
+							
+							</ul>
+							<p><strong>Manufacturer:</strong></p>
+							<ul>
+							
+							</ul>
+							<p><strong>Brand:</strong></p>
+							<ul>
+							
+							</ul>
+							
+							<p><strong>Price Range:</strong></p>
+						
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		
-		<div class="container">
-			<div class="panel panel-default col-md-8">
+		<div class="container col-md-9">
+			<div class="panel panel-default col-md-12">
 				<? if (isset($results)) { 
 					foreach($results as $row){
 				?>
@@ -40,16 +64,16 @@
 							<div class="row">
 								<p>Date posted: <?= $row['date']?></p>
 							</div>
-							<div class="row" style="height: 50%; overflow: hidden;">
-								<p><?= $row['desc']?></p>
-							</div>
 							<div class="row">
-								<p>Sold by:<?= $row['user']?></p>
+								<p>Sold by: <?= $row['user']?></p>
+							</div>
+							<div class="row" style="overflow: hidden;">
+								<p><?= $row['desc']?></p>
 							</div>
 						</div>
 						<div class="container col-md-3">
 							<div class="row">
-								<p><?= $row['price']?></p>
+								<h4>$<?= $row['price']?></h4>
 							</div>
 							<div class="row">
 								<p>Condition: <?= $row['condition']?></p>

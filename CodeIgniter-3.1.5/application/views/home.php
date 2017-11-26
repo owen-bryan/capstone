@@ -41,7 +41,7 @@
 							<h2>Advanced Search</h2>
 							<hr/>
 							<div class="row">
-								<div class="col-md-8">
+								<div class="col-md-7">
 									<div class="form-group">
 										<label class="control-label col-md-4" for="price_range">Price:</label>
 										<div class="col-md-4">
@@ -76,11 +76,12 @@
 										<div class="col-md-9">
 											<select class="form-control" id="sort" name="sort" >
 												<option value="newest">Newest</option>
+												<option value="oldest">Oldest</option>
 											</select>
 										</div>
 									</div>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-5">
 									<div class="form-group">
 										<label class="control-label col-md-3" for="province">Province:</label>
 										<div class="col-md-6">
@@ -89,6 +90,19 @@
 												<? if(isset($provinces)){
 													foreach($provinces as $province) { ?>
 												<option value="<?= $province ?>"><?= ucfirst($province) ?></option> 
+												<? } }?>
+											</select>
+										</div>
+										
+									</div>
+									<div class="form-group">
+										<label class="control-label col-md-3" for="city">City:</label>
+										<div class="col-md-6">
+											<select class="form-control" id="city" name="city" disabled>
+												<option value="all">City</option>
+												<? if(isset($cities)){
+													foreach($cities as $city) { ?>
+												<option value="<?= $city ?>"><?= ucfirst($city) ?></option> 
 												<? } }?>
 											</select>
 										</div>
