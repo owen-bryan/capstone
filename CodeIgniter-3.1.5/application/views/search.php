@@ -56,7 +56,7 @@
 						</div>
 						<div class="container col-md-6">
 							<div class="row">
-								<a href="<?= base_url() . "indext.php?/Ad/" . $row['user_id']?>"><?= $row['title']?></a>
+								<a href="<?= base_url() . "index.php?c=ad&ad=" . $row['id']?>"><?= $row['title']?></a>
 							</div>
 							<div class="row">
 								<p>Location: <?= $row['location']?></p>

@@ -131,48 +131,79 @@ class Search extends CI_Controller {
 		
 		if(isset($_GET['search_string']))
 		{
-			$url += "&search_string=" . $this->input->get('search_string', true);
+			if($this->input->get('search_string', true) != "")
+			{	
+				$url += "&search_string=" . $this->input->get('search_string', true);
+			}
 		}
 		
 		if(isset($_GET['category']))
 		{
-			$url += "&category=" . $this->input->get('category', true);
+			if($this->input->get('category', true) != "" && $this->input->get('category', true) != "all")
+			{
+				$url += "&category=" . $this->input->get('category', true);
+			}
 		}
 		
 		if(isset($_GET['low_price']))
 		{
-			$url += "&low_price=" . $this->input->get('low_price', true);
+			if($this->input->get('low_price', true) != ""  && is_numeric($this->input->get('low_price', true)) == true)
+			{
+				$url += "&low_price=" . $this->input->get('low_price', true);
+			}
 		}
 		
 		if(isset($_GET['high_price']))
 		{
-			$url += "&high_price=" . $this->input->get('high_price', true);
+			if($this->input->get('high_price', true) != "" && is_numeric($this->input->get('high_price', true)) == true)
+			{
+				$url += "&high_price=" . $this->input->get('high_price', true);
+			}
 		}
 		
 		if(isset($_GET['province']))
 		{
-			$url += "&province=" . $this->input->get('province', true);
+			if($this->input->get('province', true) != "" && $this->input->get('province', true) != "all")
+			{
+				$url += "&province=" . $this->input->get('province', true);
+			}
+			
 		}
 		
 		if(isset($_GET['city']))
 		{
-			$url += "&city=" . $this->input->get('city', true);
+			if($this->input->get('city', true) != "" && $this->input->get('city', true) != "all")
+			{
+				$url += "&city=" . $this->input->get('city', true);
+			}
+			
 		}
 		
 		if(isset($_GET['manufacturer']))
 		{
-			$url += "&manufacturer=" . $this->input->get('manufacturer', true);
+			if($this->input->get('manufacturer', true) != "" && $this->input->get('manufacturer', true) != "all")
+			{
+				$url += "&manufacturer=" . $this->input->get('manufacturer', true);
+			}
+			
 		}
 		
 		if(isset($_GET['brand']))
 		{
+			if($this->input->get('brand', true) != "" && $this->input->get('brand', true) != "all")
+			{
+				$url += "&brand=" . $this->input->get('brand', true);
+			}
 			
-			$url += "&brand=" . $this->input->get('brand', true);
 		}
 		
 		if(isset($_GET['sort']))
 		{
-			$url += "&sort=" . $this->input->get('sort', true);
+			if($this->input->get('sort', true) != "" )
+			{
+				$url += "&sort=" . $this->input->get('sort', true);
+			}
+			
 		}
 		
 		return $url;
@@ -190,7 +221,7 @@ class Search extends CI_Controller {
 		if($_SERVER['REQUEST_METHOD'] == 'GET')
 		{
 			$province = $this->input->get('province', true);
-			$query = $this->db->query("SELECT DISTINCT `city` FROM `USERS` WHERE LOWER(`province`) LIKE '%$province%';");
+			$query = $this->db->query("SELECT DISTINCT `city` FROM `USERS` WHERE LOWER(`province`) LIKE '%$province%' ORDER BY `city` DESC;");
 			
 			if($query)
 			{
