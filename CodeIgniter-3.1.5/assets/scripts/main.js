@@ -33,4 +33,34 @@ $(document).ready(function(){
 		
 	});
 
+	
+	$("#manufacturer").change(function()
+	{
+		if($("#manufacturer").val() != "all")
+		{
+			$("#brand").prop('disabled', false);
+			$.get(
+			"https://csunix.mohawkcollege.ca/~000340128/private/capstone-project/CodeIgniter-3.1.5/index.php?c=search&m=get_brands_json",
+			{manufacturer : $("#manufacturer").val()},
+			function(data)
+			{
+				var brands = $("#brand");
+				brands.empty();
+				brands.append('<option value="all">Brand</option>');
+				for  (var i = 0; i < data.length; i++)
+				{
+					var row = data[i];
+					brands.append('<option value="' + row.brand_id +'">' + row.brand_name + "</option>");
+					console.log(row);
+				}
+			}
+			,
+			"json");
+		}
+		else
+		{
+			$("#brand").prop('disabled', true);
+		}
+		
+	});
 });

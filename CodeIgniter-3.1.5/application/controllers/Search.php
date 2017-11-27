@@ -65,7 +65,7 @@ class Search extends CI_Controller {
 			
 			if(isset($_GET['brand']))
 			{
-				$this->db->where('brand_id', $this->input->get('brand', true));
+				$this->db->where('ADS.brand_id', $this->input->get('brand', true));
 			}
 			
 			if(isset($_GET['sort']))
@@ -222,6 +222,24 @@ class Search extends CI_Controller {
 		{
 			$province = $this->input->get('province', true);
 			$query = $this->db->query("SELECT DISTINCT `city` FROM `USERS` WHERE LOWER(`province`) LIKE '%$province%' ORDER BY `city` DESC;");
+			
+			if($query)
+			{
+				$results = $query->result_array();
+				
+				
+				echo json_encode($results);
+			}
+		}
+	}
+	
+	public function get_brands_json()
+	{
+		$results;
+		if($_SERVER['REQUEST_METHOD'] == 'GET')
+		{
+			$manufacturer = $this->input->get('manufacturer', true);
+			$query = $this->db->query("SELECT DISTINCT `BRANDS`.`brand_id`, `brand_name` FROM `BRANDS` JOIN `ADS` ON `BRANDS`.`brand_id` = `ADS`.`brand_id` WHERE `BRANDS`.`manufacturer_id`= $manufacturer ORDER BY `brand_name` DESC;");
 			
 			if($query)
 			{

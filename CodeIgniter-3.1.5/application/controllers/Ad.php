@@ -22,6 +22,8 @@ class Ad extends CI_Controller
 		echo "<pre>";
 		print_r($this->TPL);
 		echo "</pre>";
+		
+		$this->template->show("ad",$this->TPL);
 	}
 
 	

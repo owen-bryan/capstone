@@ -44,48 +44,50 @@
 		
 		<div class="container col-md-9">
 			<div class="panel panel-default col-md-12">
-				<? if (isset($results)) { 
-					foreach($results as $row){
-				?>
-				<div class="row top15">
-					<div class="container-fluid">
-						<div class="container col-md-3">
+				<div class="panel-body">
+					<? if (isset($results)) { 
+						foreach($results as $row){
+					?>
+					<div class="row">
+						<div class="container-fluid">
+							<div class="container col-md-3">
+								
+								<img class="img-responsive" src="<?= $row['img']?>"/>
 							
-							<img class="img-responsive" src="<?= $row['img']?>"/>
-						
-						</div>
-						<div class="container col-md-6">
-							<div class="row">
-								<a href="<?= base_url() . "index.php?c=ad&ad=" . $row['id']?>"><?= $row['title']?></a>
 							</div>
-							<div class="row">
-								<p>Location: <?= $row['location']?></p>
+							<div class="container col-md-6">
+								<div class="row">
+									<a href="<?= base_url() . "index.php?c=ad&ad=" . $row['id']?>"><?= $row['title']?></a>
+								</div>
+								<div class="row">
+									<p>Location: <?= $row['location']?></p>
+								</div>
+								<div class="row">
+									<p>Date posted: <?= $row['date']?></p>
+								</div>
+								<div class="row">
+									<p>Sold by: <?= $row['user']?></p>
+								</div>
+								<div class="row" style="overflow: hidden;">
+									<p><?= $row['desc']?></p>
+								</div>
 							</div>
-							<div class="row">
-								<p>Date posted: <?= $row['date']?></p>
-							</div>
-							<div class="row">
-								<p>Sold by: <?= $row['user']?></p>
-							</div>
-							<div class="row" style="overflow: hidden;">
-								<p><?= $row['desc']?></p>
-							</div>
-						</div>
-						<div class="container col-md-3">
-							<div class="row">
-								<h4>$<?= $row['price']?></h4>
-							</div>
-							<div class="row">
-								<p>Condition: <?= $row['condition']?></p>
+							<div class="container col-md-3">
+								<div class="row">
+									<h4>$<?= $row['price']?></h4>
+								</div>
+								<div class="row">
+									<p>Condition: <?= $row['condition']?></p>
+								</div>
 							</div>
 						</div>
 					</div>
+					<hr/>
+					<? } 
+					} else { ?>
+					<p>No results found</p>
+					<? } ?>
 				</div>
-				<hr/>
-				<? } 
-				} else { ?>
-				<p>No results found</p>
-				<? } ?>
 			</div>
 		</div>
 	</div>
