@@ -33,13 +33,12 @@ class Login extends CI_Controller {
 		$username = $this->input->post('uname', true);
 		$password = $this->input->post('password', true);
 		
-		$this->TPL['error'] = $this->user_auth->login($username, $password);
-		echo $this->TPL['error'];
+		$this->ion_auth->login($username, $password);
 	}
 
 	public function log_out()
 	{
-		$this->user_auth->logout();
+		$this->ion_auth->logout();
 	}
 	
 	public function forgot_password()
