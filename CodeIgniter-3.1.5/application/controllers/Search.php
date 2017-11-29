@@ -10,7 +10,7 @@ class Search extends CI_Controller {
 		parent::__construct();
 		
 		$this->TPL['page'] = "Search";
-		$this->TPL['loggedIn'] = $this->user_auth->validSessionExists();
+		$this->TPL['loggedIn'] = $this->ion_auth->logged_in();
 		
 
 	}
@@ -118,9 +118,11 @@ class Search extends CI_Controller {
 			}
 		}
 		
-		/* echo "<pre>";
-		print_r($this->TPL);
-		echo "</pre>"; */
+		echo "<pre>";
+		//print_r($this->TPL);
+		print_r($_SESSION);
+		print_r($this->ion_auth->get_users_groups($user->id)->result());
+		echo "</pre>";
 		
 		$this->template->show('search', $this->TPL);
 	}

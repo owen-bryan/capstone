@@ -18,14 +18,14 @@ class Login extends CI_Controller {
 	
 	public function index()
 	{
-		if($this->user_auth->validSessionExists())
+		if(!$this->ion_auth->logged_in())
 		{
-			$this->user_auth->redirect($_SESSION['base_page']);
+			$this->template->show('login', $this->TPL);
 		}
-		
-		$this->template->show('login', $this->TPL);
-		
-		
+		else
+		{
+			redirect("c=home");
+		}
 	}
 	
 	public function login()
@@ -33,7 +33,14 @@ class Login extends CI_Controller {
 		$username = $this->input->post('uname', true);
 		$password = $this->input->post('password', true);
 		
-		$this->ion_auth->login($username, $password);
+		if($this->ion_auth->login($username, $password))
+		{
+			redirect("c=home");
+		}
+		else
+		{
+			$this->template->show('login', $this->TPL);
+		}
 	}
 
 	public function log_out()

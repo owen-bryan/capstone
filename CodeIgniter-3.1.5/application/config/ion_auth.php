@@ -29,7 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $config['tables']['users']           = 'USERS';
 $config['tables']['groups']          = 'USER_ROLES';
-$config['tables']['users_groups']    = 'users_groups';
+$config['tables']['users_groups']    = 'USERS_GROUPS';
 $config['tables']['login_attempts']  = 'login_attempts';
 
 /*

@@ -1,6 +1,30 @@
 $(document).ready(function(){
+	var isHidden = true;
 	$("#show_more").click(function(){
 		$("#advanced_options").toggleClass("hidden");
+		if(isHidden == true)
+		{
+			$("#low_price").prop('disabled',false);
+			$("#high_price").prop('disabled',false);
+			$("#manufacturer").prop('disabled',false);
+			$("#brand").prop('disabled',false);
+			$("#sort").prop('disabled',false);
+			$("#province").prop('disabled',false);
+			$("#city").prop('disabled',false);
+			isHidden = false;
+		}
+		else
+		{
+			$("#low_price").prop('disabled',true);
+			$("#high_price").prop('disabled',true);
+			$("#manufacturer").prop('disabled',true);
+			$("#brand").prop('disabled',true);
+			$("#sort").prop('disabled',true);
+			$("#province").prop('disabled',true);
+			$("#city").prop('disabled',true);
+			isHidden = true;
+		}
+		
 	});
 
 	$("#province").change(function()

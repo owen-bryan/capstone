@@ -45,16 +45,16 @@
 									<div class="form-group">
 										<label class="control-label col-md-4" for="price_range">Price:</label>
 										<div class="col-md-4">
-											<input type="text" class="form-control" id="low_price" name="low_price"/>
+											<input type="text" class="form-control" id="low_price" name="low_price" disabled/>
 										</div>
 										<div class="col-md-4">
-											<input type="text" class="form-control" id="high_price" name="high_price"/>
+											<input type="text" class="form-control" id="high_price" name="high_price" disabled/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="control-label col-md-4" for="manufacturer">Manufacturer:</label>
 										<div class="col-md-8">
-											<select class="form-control" id="manufacturer" name="manufacturer">
+											<select class="form-control" id="manufacturer" name="manufacturer" disabled>
 												<option value="all">Select manufacturer</option>
 												<? if(isset($manufacturers)) {
 													foreach($manufacturers as $manufacturer){ ?>
@@ -74,7 +74,7 @@
 									<div class="form-group">
 										<label class="control-label col-md-3" for="sort">Sort by:</label>
 										<div class="col-md-9">
-											<select class="form-control" id="sort" name="sort" >
+											<select class="form-control" id="sort" name="sort" disabled>
 												<option value="newest">Newest</option>
 												<option value="oldest">Oldest</option>
 											</select>
@@ -85,7 +85,7 @@
 									<div class="form-group">
 										<label class="control-label col-md-3" for="province">Province:</label>
 										<div class="col-md-6">
-											<select class="form-control" id="province" name="province">
+											<select class="form-control" id="province" name="province" disabled>
 												<option value="all">Province</option>
 												<? if(isset($provinces)){
 													foreach($provinces as $province) { ?>
