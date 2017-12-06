@@ -10,19 +10,23 @@ class Signup extends CI_Controller {
 		parent::__construct();
 		
 		$this->TPL['page'] = "Sign up";
-		$this->TPL['loggedIn'] = $this->user_auth->validSessionExists();
+		$this->TPL['loggedIn'] = $this->ion_auth->logged_in();
 		
-		if($this->TPL['loggedIn'] == true)
-		{
-			$this->user_auth->redirect($_SESSION['base_page']);
-		}
+		
 		
 	}
 	
 	public function index()
 	{
+		if($this->TPL['loggedIn'] == true)
+		{
+			redirect("c=home");
+		}
+		else
+		{
+			$this->template->show('signup', $this->TPL);
+		}
 		
-		$this->template->show('signup', $this->TPL);
 	}
 	
 	public function add_user()

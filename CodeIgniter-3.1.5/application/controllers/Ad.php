@@ -10,7 +10,7 @@ class Ad extends CI_Controller
 		parent::__construct();
 		
 		$this->TPL['page'] = "Ad";
-		$this->TPL['loggedIn'] = $this->user_auth->validSessionExists();
+		$this->TPL['loggedIn'] = $this->ion_auth->logged_in();
 		
 
 	}

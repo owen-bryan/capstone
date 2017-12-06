@@ -10,14 +10,20 @@ class Admin extends CI_Controller {
 		parent::__construct();
 		
 		$this->TPL['page'] = "Post an ad";
-		$this->TPL['loggedIn'] = $this->user_auth->loggedin(base_url() . "index.php?/PostAnAd");
+		$this->TPL['loggedIn'] = $this->ion_auth->logged_in();
 		
 	}
 	
 	public function index()
 	{
-		
-		$this->template->show('admin', $this->TPL);
+		if($this->TPL['loggedIn'])
+		{
+			$this->template->show('admin', $this->TPL);
+		}
+		else
+		{
+			redirect("c=login");
+		}
 	}
 
 }

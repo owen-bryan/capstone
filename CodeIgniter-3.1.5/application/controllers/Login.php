@@ -46,6 +46,7 @@ class Login extends CI_Controller {
 	public function log_out()
 	{
 		$this->ion_auth->logout();
+		redirect("c=login");
 	}
 	
 	public function forgot_password()
