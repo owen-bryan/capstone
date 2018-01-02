@@ -24,7 +24,6 @@ class Search extends CI_Controller {
 	{	
 		if($_SERVER['REQUEST_METHOD'] = "GET")
 		{
-			date_default_timezone_set("UTC");
 			
 			$this->db->select('ADS.ad_id, item_description, ad_title, item_condition, item_price, post_date, user_name, brand_name, image_location, city, province, category_name, USERS.user_name');
 			$this->db->from('ADS');
@@ -114,20 +113,34 @@ class Search extends CI_Controller {
 					{
 						$this->TPL['results'][$i]['img'] = "";
 					}
+					
+					$this->build_search_url();
+					if(!$this->input->get("province", true))
+					{
+						$this->get_provinces();
+					}
+					if($this->input->get("province", true) && !$this->input->get("city", true))
+					{
+						$this->get_cities();
+					}
+					if(!$this->input->get("category",true) || $this->input->get("category",true) == "all")
+					{
+						$this->get_categories();
+					}
 				}
 			}
 		}
 		
-		echo "<pre>";
+		/* echo "<pre>";
 		//print_r($this->TPL);
-		print_r($_SESSION);
+		//print_r($_SESSION);
 		print_r($this->ion_auth->get_users_groups($user->id)->result());
-		echo "</pre>";
+		echo "</pre>"; */
 		
 		$this->template->show('search', $this->TPL);
 	}
 	
-	public function build_search_urls()
+	private function build_search_url()
 	{
 		$url = "c=search&m=display";
 		
@@ -135,7 +148,7 @@ class Search extends CI_Controller {
 		{
 			if($this->input->get('search_string', true) != "")
 			{	
-				$url += "&search_string=" . $this->input->get('search_string', true);
+				$url = $url . "&search_string=" . $this->input->get('search_string', true);
 			}
 		}
 		
@@ -143,7 +156,7 @@ class Search extends CI_Controller {
 		{
 			if($this->input->get('category', true) != "" && $this->input->get('category', true) != "all")
 			{
-				$url += "&category=" . $this->input->get('category', true);
+				$url = $url . "&category=" . $this->input->get('category', true);
 			}
 		}
 		
@@ -151,7 +164,7 @@ class Search extends CI_Controller {
 		{
 			if($this->input->get('low_price', true) != ""  && is_numeric($this->input->get('low_price', true)) == true)
 			{
-				$url += "&low_price=" . $this->input->get('low_price', true);
+				$url = $url . "&low_price=" . $this->input->get('low_price', true);
 			}
 		}
 		
@@ -159,7 +172,7 @@ class Search extends CI_Controller {
 		{
 			if($this->input->get('high_price', true) != "" && is_numeric($this->input->get('high_price', true)) == true)
 			{
-				$url += "&high_price=" . $this->input->get('high_price', true);
+				$url = $url . "&high_price=" . $this->input->get('high_price', true);
 			}
 		}
 		
@@ -167,7 +180,7 @@ class Search extends CI_Controller {
 		{
 			if($this->input->get('province', true) != "" && $this->input->get('province', true) != "all")
 			{
-				$url += "&province=" . $this->input->get('province', true);
+				$url = $url . "&province=" . $this->input->get('province', true);
 			}
 			
 		}
@@ -176,7 +189,7 @@ class Search extends CI_Controller {
 		{
 			if($this->input->get('city', true) != "" && $this->input->get('city', true) != "all")
 			{
-				$url += "&city=" . $this->input->get('city', true);
+				$url = $url . "&city=" . $this->input->get('city', true);
 			}
 			
 		}
@@ -185,7 +198,7 @@ class Search extends CI_Controller {
 		{
 			if($this->input->get('manufacturer', true) != "" && $this->input->get('manufacturer', true) != "all")
 			{
-				$url += "&manufacturer=" . $this->input->get('manufacturer', true);
+				$url = $url . "&manufacturer=" . $this->input->get('manufacturer', true);
 			}
 			
 		}
@@ -194,7 +207,7 @@ class Search extends CI_Controller {
 		{
 			if($this->input->get('brand', true) != "" && $this->input->get('brand', true) != "all")
 			{
-				$url += "&brand=" . $this->input->get('brand', true);
+				$url = $url . "&brand=" . $this->input->get('brand', true);
 			}
 			
 		}
@@ -203,18 +216,210 @@ class Search extends CI_Controller {
 		{
 			if($this->input->get('sort', true) != "" )
 			{
-				$url += "&sort=" . $this->input->get('sort', true);
+				$url = $url . "&sort=" . $this->input->get('sort', true);
 			}
 			
 		}
 		
-		return $url;
+		//echo $url;
+		$this->TPL['base_search'] = $url;
 	}
 	
-	private function get_search_modifiers($search_string)
+	private function get_provinces()
 	{
+		$this->db->distinct();
+		$this->db->select('province');
+		$this->db->from('ADS');
+		$this->db->join('USERS', 'ADS.user_id = USERS.id');
+		if(isset($_GET['search_string']))
+		{
+			$this->db->like('ad_title', $this->input->get('search_string', true));
+		}
+			
+		if(isset($_GET['category']))
+		{
+			if($this->input->get('category', true) != "all")
+			{
+				$this->db->where('category_id', $this->input->get('category', true));
+			}
+		}
 		
+		if(isset($_GET['city']))
+		{
+			if($this->input->get('city', true) != "" && $this->input->get('city', true) != "all")
+			{
+				$url = $url . "&city=" . $this->input->get('city', true);
+			}
+			
+		}
 		
+		if(isset($_GET['low_price']))
+		{
+			if($this->input->get('low_price', true) != "")
+			{
+				$this->db->where('item_price >=', $this->input->get('low_price', true));
+			}
+		}
+			
+		if(isset($_GET['high_price']))
+		{
+			if($this->input->get('high_price', true))
+			{
+				$this->db->where('item_price <=', $this->input->get('high_price', true));
+			}
+		}
+			
+		if(isset($_GET['brand']))
+		{
+			$this->db->where('brand_id', $this->input->get('brand', true));
+		}
+			
+		$this->db->order_by('province DESC');
+			
+		$this->db->where('public', 1);
+		$this->db->where('reported', 0);
+		$this->db->where('sold', 0);
+			
+		$query = $this->db->get();
+			
+		if($query)
+		{
+			$results = $query->result_array();
+				
+			$this->TPL['provinces'] = $results;
+		}
+	}
+	
+	private function get_cities()
+	{
+		$this->db->distinct();
+		$this->db->select('city');
+		$this->db->from('ADS');
+		$this->db->join('USERS', 'ADS.user_id = USERS.id');
+		if(isset($_GET['search_string']))
+		{
+			$this->db->like('ad_title', $this->input->get('search_string', true));
+		}
+			
+		if(isset($_GET['category']))
+		{
+			if($this->input->get('category', true) != "all")
+			{
+				$this->db->where('category_id', $this->input->get('category', true));
+			}
+		}
+		
+		if(isset($_GET['province']))
+		{
+			if($this->input->get('province', true) != "" && $this->input->get('province', true) != "all")
+			{
+				$url = $url . "&province=" . $this->input->get('province', true);
+			}
+			
+		}
+		
+		if(isset($_GET['low_price']))
+		{
+			if($this->input->get('low_price', true) != "")
+			{
+				$this->db->where('item_price >=', $this->input->get('low_price', true));
+			}
+		}
+			
+		if(isset($_GET['high_price']))
+		{
+			if($this->input->get('high_price', true))
+			{
+				$this->db->where('item_price <=', $this->input->get('high_price', true));
+			}
+		}
+			
+		if(isset($_GET['brand']))
+		{
+			$this->db->where('brand_id', $this->input->get('brand', true));
+		}
+			
+		$this->db->order_by('city DESC');
+			
+		$this->db->where('public', 1);
+		$this->db->where('reported', 0);
+		$this->db->where('sold', 0);
+			
+		$query = $this->db->get();
+			
+		if($query)
+		{
+			$results = $query->result_array();
+				
+			$this->TPL['cities'] = $results;
+		}
+	}
+	
+	private function get_categories()
+	{
+		$this->db->distinct();
+		$this->db->select('category_name');
+		$this->db->from('ADS');
+		$this->db->join('CATEGORIES', 'ADS.category_id = CATEGORIES.category_id');
+		
+		if(isset($_GET['search_string']))
+		{
+			$this->db->like('ad_title', $this->input->get('search_string', true));
+		}
+		
+		if(isset($_GET['province']))
+		{
+			if($this->input->get('province', true) != "" && $this->input->get('province', true) != "all")
+			{
+				$url = $url . "&province=" . $this->input->get('province', true);
+			}
+			
+		}
+		
+		if(isset($_GET['city']))
+		{
+			if($this->input->get('city', true) != "" && $this->input->get('city', true) != "all")
+			{
+				$url = $url . "&city=" . $this->input->get('city', true);
+			}
+			
+		}
+		
+		if(isset($_GET['low_price']))
+		{
+			if($this->input->get('low_price', true) != "")
+			{
+				$this->db->where('item_price >=', $this->input->get('low_price', true));
+			}
+		}
+			
+		if(isset($_GET['high_price']))
+		{
+			if($this->input->get('high_price', true))
+			{
+				$this->db->where('item_price <=', $this->input->get('high_price', true));
+			}
+		}
+			
+		if(isset($_GET['brand']))
+		{
+			$this->db->where('brand_id', $this->input->get('brand', true));
+		}
+			
+		$this->db->order_by('category_name DESC');
+			
+		$this->db->where('public', 1);
+		$this->db->where('reported', 0);
+		$this->db->where('sold', 0);
+			
+		$query = $this->db->get();
+			
+		if($query)
+		{
+			$results = $query->result_array();
+				
+			$this->TPL['categories'] = $results;
+		}
 	}
 	
 	public function get_cities_json()

@@ -1,5 +1,7 @@
 $(document).ready(function(){
 	var isHidden = true;
+
+	
 	$("#show_more").click(function(){
 		$("#advanced_options").toggleClass("hidden");
 		if(isHidden == true)
@@ -7,10 +9,8 @@ $(document).ready(function(){
 			$("#low_price").prop('disabled',false);
 			$("#high_price").prop('disabled',false);
 			$("#manufacturer").prop('disabled',false);
-			$("#brand").prop('disabled',false);
 			$("#sort").prop('disabled',false);
 			$("#province").prop('disabled',false);
-			$("#city").prop('disabled',false);
 			isHidden = false;
 		}
 		else
@@ -87,4 +87,41 @@ $(document).ready(function(){
 		}
 		
 	});
+	
+	$("#search_form").submit(function()
+	{
+		if($("#low_price").val() < 0 || $("#low_price").val() == "")
+		{
+			$("#low_price").prop('disabled',true);
+		}
+		if($("#high_price").val() < 0 || $("#high_price").val() == "" )
+		{
+			$("#high_price").prop('disabled',true);
+		}
+		
+		if($("#manufacturer").val() == "all")
+		{
+			$("#manufacturer").prop('disabled',true);
+			$("#brand").prop('disabled',true);
+		}
+		if($("#brand").val() == "all")
+		{
+			$("#brand").prop('disabled',true);
+		}
+		
+		if($("#province").val() == "all")
+		{
+			$("#province").prop('disabled',true);
+			$("#city").prop('disabled',true);
+		}
+		
+		if($("#city").val() == "all")
+		{
+			$("#city").prop('disabled',true);
+		}
+		
+		
+		$("#search_form").submit();
+	});
+	
 });

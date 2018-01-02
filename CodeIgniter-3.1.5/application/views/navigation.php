@@ -26,9 +26,11 @@
 				<? } ?>
 			</ul>
 			<? if ($page != "Home") { ?>
-			<form class="navbar-form navbar-right">
+			<form class="navbar-form navbar-right" action="<?= base_url() . "index.php" ?>" method="get">
+				<input type="hidden" value="search" name="c"/>
+				<input type="hidden" value="display" name="m"/>
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Search">
+					<input type="text" name="search_string" class="form-control" placeholder="Search">
 				</div>
 				<div class="form-group">
 					<button type="submit" class="form-control btn btn-default">Submit</button>

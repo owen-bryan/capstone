@@ -58,7 +58,7 @@ class Login extends CI_Controller {
 	{
 		$username = $this->input->post("uname", true);
 		
-		$sql = "SELECT `recovery_question` FROM `USERS` WHERE `user_name`= ? ;";
+		$sql = "SELECT `recovery_question`, `id` FROM `USERS` WHERE `user_name`= ? ;";
 		$query = $this->db->query($sql, $username);
 		if($query)
 		{
@@ -66,8 +66,21 @@ class Login extends CI_Controller {
 			
 			if(isset($row))
 			{
-				$this->template->show("forgot_password", $this->TPL);
+				$this->TPL['question'] = $row['recovery_question'];
+				$this->TPL['uid'] = $row['id'];
+				$this->template->show("reset", $this->TPL);
 			}
 		}
 	}
+	
+	public function reset_password()
+	{
+		if(isset($_POST['pword']) && isset($_POST['pword_confirm']))
+		{
+			$this->ion_auth->update($this->input->post("uid", true), array("password"=>$this->input->post("pword", true)));
+			redirect("c=home");
+		}
+	}
+	
+	
 }

@@ -1,19 +1,9 @@
 <div class="container col-md-offset-3 col-md-6">
-	<? if(isset($message)) { ?>
-	<div class="row">
-		<div class="container panel panel-danger col-md-offset-1 col-md-10">
-			<? if(isset($message_body)) { ?>
-			<p><?= $message_body ?></p>
-			<? } ?>
-			<?= validation_errors(); ?>
-		</div>
-	</div>
-	<? } ?>
 	<div class="row">
 		<div class= "container panel panel-default col-md-offset-1 col-md-10">
-			<h2>Sign up</h2>
+			<h2>Edit user</h2>
 			<hr/>
-			<form method="post" action="<?= base_url() . "index.php?c=Signup&m=add_user"?>" class="form-horizontal">
+			<form method="post" action="<?= base_url() . "index.php?/Signup/add_user"?>" class="form-horizontal">
 				<div class="form-group">
 					<label class="control-label col-md-3" for="uname">User Name:</label>
 					<div class="col-md-6">
@@ -103,7 +93,7 @@
 				<div class="form-group">
 					<div class="col-md-offset-3 col-md-6">
 						<div class="checkbox">
-							<label><input type="checkbox" id="is_valid" name="is_valid" />Are you sure this information is valid</label>
+							<label><input type="checkbox" id="is_valid" name="is_valid" value="true"/>Are you sure this information is valid</label>
 						</div>
 					</div>
 				</div>
@@ -112,10 +102,11 @@
 						<input type="submit" class="form-control" value="Submit"/>
 					</div>
 					<div class="col-md-3">
-						<input type="reset" class="form-control"  value="Reset"/>
+						<input type="Reset" class="form-control"  value="Reset"/>
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
+
 </div>

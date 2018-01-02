@@ -7,31 +7,64 @@
 						<div class="container col-md-10">
 							<p><strong>Category:</strong></p>
 							<ul>
-							<? if(isset($_GET['category'])){?>
-							<? 	if( $this->input->get('category') != "all" ) { ?>
-								<li><?= $this->input->get('category', true); ?></li>
-							<? } } ?>
+								<? if(isset($_GET['category'])){?>
+								<li><?= ucfirst($_GET['category']) ?></li>
+								<? } else { ?>
+								<? if(isset($categories)){ ?>
+								<? foreach($categories as $category) {?>
+								<li>
+									<a href="<?= base_url() . "index.php?" . $base_search . "&category=" . $category['category'] ?>"><?= ucfirst($category['category']) ?></a>
+								</li>
+								<? } } }?>
 							</ul>
 							<p><strong>Condition:</strong></p>
+							<p><strong>Province:</strong></p>
 							<ul>
+								<? if(isset($_GET['province'])){?>
+								<li><?= ucfirst($_GET['province']) ?></li>
+								<? } else { ?>
+								<? if(isset($provinces)){ ?>
+								<? foreach($provinces as $province) {?>
 								<li>
-									<a href="<?= base_url() . "index.php?c=search&m=display&province=ontario" ?>">Ontario</a>
+									<a href="<?= base_url() . "index.php?" . $base_search . "&province=" . $province['province'] ?>"><?= ucfirst($province['province']) ?></a>
 								</li>
+								<? } } }?>
 							</ul>
+							<p><strong>city:</strong></p>
 							<ul>
-							
-							</ul>
-							<p><strong>Location:</strong></p>
-							<ul>
-							
+								<? if(isset($_GET['city'])){?>
+								<li><?= ucfirst($_GET['city']) ?></li>
+								<? } else { ?>
+								<? if(isset($cities)){ ?>
+								<? foreach($cities as $city) {?>
+								<li>
+									<a href="<?= base_url() . "index.php?" . $base_search . "&city=" . $city['city'] ?>"><?= ucfirst($city['city']) ?></a>
+								</li>
+								<? } } }?>
 							</ul>
 							<p><strong>Manufacturer:</strong></p>
 							<ul>
-							
+								<? if(isset($_GET['manufacturer'])){?>
+								<li><?= ucfirst($_GET['manufacturer']) ?></li>
+								<? } else { ?>
+								<? if(isset($manufacturers)){ ?>
+								<? foreach($manufacturers as $manufacturer) {?>
+								<li>
+									<a href="<?= base_url() . "index.php?" . $base_search . "&manufacturer=" . $manufacturer['manufacturer'] ?>"><?= ucfirst($manufacturer['manufacturer']) ?></a>
+								</li>
+								<? } } }?>
 							</ul>
 							<p><strong>Brand:</strong></p>
 							<ul>
-							
+								<? if(isset($_GET['brand'])){?>
+								<li><?= ucfirst($_GET['brand']) ?></li>
+								<? } else { ?>
+								<? if(isset($brands)){ ?>
+								<? foreach($brands as $brand) {?>
+								<li>
+									<a href="<?= base_url() . "index.php?" . $base_search . "&brand=" . $brand['brand'] ?>"><?= ucfirst($brand['brand']) ?></a>
+								</li>
+								<? } } }?>
 							</ul>
 							
 							<p><strong>Price Range:</strong></p>
