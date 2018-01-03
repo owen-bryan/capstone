@@ -7,22 +7,36 @@
 						<div class="container col-md-10">
 							<p><strong>Category:</strong></p>
 							<ul>
-								<? if(isset($_GET['category'])){?>
-								<li><?= ucfirst($_GET['category']) ?></li>
+								<? if(isset($category) && strtolower($category) != "all"){?>
+								<li><?= ucfirst($category) ?> <a href="<?= base_url() . "index.php?" . str_replace("&category=".$category, '', $base_search) ?>"><span class="glyphicon glyphicon-remove"></span></a></li>
 								<? } else { ?>
 								<? if(isset($categories)){ ?>
 								<? foreach($categories as $category) {?>
 								<li>
-									<a href="<?= base_url() . "index.php?" . $base_search . "&category=" . $category['category'] ?>"><?= ucfirst($category['category']) ?></a>
+									<a href="<?= base_url() . "index.php?" . $base_search . "&category=" . $category['category_name'] ?>"><?= ucfirst($category['category_name']) ?></a>
 								</li>
 								<? } } }?>
 							</ul>
 							<p><strong>Condition:</strong></p>
+							<ul>
+								<? if(isset($condition)){?>
+								<li><?= ucfirst($condition) ?> <a href="<?= base_url() . "index.php?" . str_replace("&condition=".$condition, '', $base_search) ?>"><span class="glyphicon glyphicon-remove"></span></a></li>
+								<? } else { ?>
+								<? if(isset($conditions)){ ?>
+								<? foreach($conditions as $condition) {?>
+								<li>
+									<a href="<?= base_url() . "index.php?" . $base_search . "&condition=" . $condition['item_condition'] ?>"><?= ucfirst($condition['item_condition']) ?></a>
+								</li>
+								<? } } }?>
+							</ul>
 							<p><strong>Province:</strong></p>
 							<ul>
-								<? if(isset($_GET['province'])){?>
-								<li><?= ucfirst($_GET['province']) ?></li>
+								<? if(isset($province)){?>
+								<? if (isset($city)){ ?>
+								<li><?= ucfirst($province) ?> <a href="<?= base_url() . "index.php?" . str_replace("&province=$province", '', str_replace("&city=$city" , '', $base_search)) ?>"><span class="glyphicon glyphicon-remove"></span></a></li>
 								<? } else { ?>
+								<li><?= ucfirst($province) ?> <a href="<?= base_url() . "index.php?" . str_replace("&province=".$province, '', $base_search) ?>"><span class="glyphicon glyphicon-remove"></span></a></li>
+								<? } } else { ?>
 								<? if(isset($provinces)){ ?>
 								<? foreach($provinces as $province) {?>
 								<li>
@@ -30,10 +44,11 @@
 								</li>
 								<? } } }?>
 							</ul>
-							<p><strong>city:</strong></p>
+							<? if (isset($cities) || isset($city)) { ?>
+							<p><strong>City:</strong></p>
 							<ul>
-								<? if(isset($_GET['city'])){?>
-								<li><?= ucfirst($_GET['city']) ?></li>
+								<? if(isset($city)){?>
+								<li><?= ucfirst($city) ?> <a href="<?= base_url() . "index.php?" . str_replace("&city=".$city, '', $base_search) ?>"><span class="glyphicon glyphicon-remove"></span></a></li>
 								<? } else { ?>
 								<? if(isset($cities)){ ?>
 								<? foreach($cities as $city) {?>
@@ -42,10 +57,11 @@
 								</li>
 								<? } } }?>
 							</ul>
+							<? } ?>
 							<p><strong>Manufacturer:</strong></p>
 							<ul>
-								<? if(isset($_GET['manufacturer'])){?>
-								<li><?= ucfirst($_GET['manufacturer']) ?></li>
+								<? if(isset($manufacturer)){?>
+								<li><?= ucfirst($manufacturer) ?> <a href="<?= base_url() . "index.php?" . str_replace("&manufacturer=".$manufacturer, '', $base_search) ?>"><span class="glyphicon glyphicon-remove"></span></a></li>
 								<? } else { ?>
 								<? if(isset($manufacturers)){ ?>
 								<? foreach($manufacturers as $manufacturer) {?>
@@ -56,8 +72,8 @@
 							</ul>
 							<p><strong>Brand:</strong></p>
 							<ul>
-								<? if(isset($_GET['brand'])){?>
-								<li><?= ucfirst($_GET['brand']) ?></li>
+								<? if(isset($brand)){?>
+								<li><?= ucfirst($brand) ?> <a href="<?= base_url() . "index.php?" . str_replace("&brand=".$brand, '', $base_search) ?>"><span class="glyphicon glyphicon-remove"></span></a></li>
 								<? } else { ?>
 								<? if(isset($brands)){ ?>
 								<? foreach($brands as $brand) {?>

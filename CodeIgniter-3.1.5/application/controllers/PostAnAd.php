@@ -80,7 +80,15 @@ class PostAnAd extends CI_Controller {
 					
 					$ad_id = $details[0]['ad_id'];
 					
-					$this->upload($ad_id);
+					if($this->upload($ad_id))
+					{
+						$this->user_auth->redirect(base_url() . "index.php?c=Ad&ad=$ad_id");
+					}
+					else
+					{
+						$this->user_auth->redirect(base_url() . "index.php?c=PostAnAd");
+					}
+					
 				}
 			}
 			else
@@ -90,7 +98,7 @@ class PostAnAd extends CI_Controller {
 		}
 		else
 		{
-			$this->user_auth->redirect(base_url() . "index.php?/PostAnAd");
+			$this->user_auth->redirect(base_url() . "index.php?c=PostAnAd");
 		}
 	}
 	
@@ -117,7 +125,7 @@ class PostAnAd extends CI_Controller {
 			$data = array('upload_data' => $this->upload->data());
 			$file_location = $this->upload->data('file_name');
 			$this->db->insert('IMAGES', array('owner_id' => $_SESSION['user_id'], 'image_location' => $file_location, 'ad_id' => $ad_id));
-			
+			return true;
 		}
 	}
 	

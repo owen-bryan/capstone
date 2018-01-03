@@ -18,12 +18,12 @@ class Ad extends CI_Controller
 	public function index()
 	{
 		$this->get_ad($this->input->get('ad', true));
-		
+		/* 
 		echo "<pre>";
 		print_r($this->TPL);
 		print_r($_SESSION);
 		echo "</pre>";
-		
+		 */
 		$this->template->show("ad",$this->TPL);
 	}
 

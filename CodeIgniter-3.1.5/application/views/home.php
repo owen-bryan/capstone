@@ -19,7 +19,7 @@
 							<option value="all">Choose a category</option>
 						<? if (isset($categories)) { 
 							foreach($categories as $row) {?>
-							<option value="<?= $row['id'] ?>"><?= $row['name']?></option>
+							<option value="<?= $row['name'] ?>"><?= $row['name']?></option>
 						<? } } ?>
 						</select>
 					</div>
