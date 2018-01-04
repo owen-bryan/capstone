@@ -11,6 +11,7 @@ class Home extends CI_Controller {
 		
 		$this->TPL['page'] = "Home";
 		$this->TPL['loggedIn'] = $this->ion_auth->logged_in();
+		$this->TPL['admin'] = $this->ion_auth->is_admin();
 		
 		
 		
@@ -19,7 +20,7 @@ class Home extends CI_Controller {
 	
 	private function get_data()
 	{
-		$query = $this->db->query("SELECT * FROM CATEGORIES;");
+		$query = $this->db->query("SELECT * FROM CATEGORIES ORDER BY `category_name` ASC;");
 		
 		if($query)
 		{
@@ -32,7 +33,7 @@ class Home extends CI_Controller {
 			}
 		}
 		
-		$query = $this->db->query("SELECT DISTINCT `province` FROM `USERS` WHERE `banned`= 0");
+		$query = $this->db->query("SELECT DISTINCT `province` FROM `USERS` WHERE `banned`= 0 ORDER BY `province` ASC");
 		
 		if($query)
 		{
@@ -44,7 +45,7 @@ class Home extends CI_Controller {
 			}
 		}
 		
-		$query = $this->db->query("SELECT `manufacturer_id`, `manufacturer_name` FROM `MANUFACTURERS`");
+		$query = $this->db->query("SELECT `manufacturer_id`, `manufacturer_name` FROM `MANUFACTURERS` ORDER BY `manufacturer_name` ASC");
 		
 		if($query)
 		{

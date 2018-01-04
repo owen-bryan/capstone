@@ -1,4 +1,14 @@
 <div class="container-fluid  col-md-offset-4 col-md-4">
+	<? if(isset($error)) { ?>
+	<div class="row">
+		<div class="container panel panel-danger col-md-offset-1 col-md-10">
+			<? if(isset($error_msg)) { ?>
+			<p class="text-danger"><?= $error_msg ?></p>
+			<? } ?>
+			<?= validation_errors(); ?>
+		</div>
+	</div>
+	<? } ?>
 	<div class="row">
 		<div class= "container panel panel-default col-md-10 col-md-offset-1">
 			<h2>Password Recovery:</h2>

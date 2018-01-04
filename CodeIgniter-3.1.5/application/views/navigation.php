@@ -15,8 +15,8 @@
 				<? if (isset($loggedIn) && $loggedIn != false) { ?>
 				<li><a href="<?= base_url() . "index.php?c=PostAnAd" ?>">Post an Ad</a></li>
 				<li><a href="header.html">Messages</a></li>
-				<li><a href="header.html">Account</a></li>
-				<? if($_SESSION['access_level'] == "admin"){ ?>
+				<li><a href="<?= base_url() . "index.php?c=edit&m=edit_user" ?>">Account</a></li>
+				<? if($admin){ ?>
 				<li><a href="<?= base_url() . "index.php?c=Admin" ?>">Admin</a></li>
 				<? } ?>
 				<li><a href="<?= base_url() . "index.php?c=Login&m=log_out"?>">Log out</a></li>

@@ -16,7 +16,7 @@
 					
 					<div class="form-group">
 						<select name="category" class="form-control col-md-4">
-							<option value="all">Choose a category</option>
+							<option value="">Choose a category</option>
 						<? if (isset($categories)) { 
 							foreach($categories as $row) {?>
 							<option value="<?= $row['name'] ?>"><?= $row['name']?></option>
@@ -55,10 +55,10 @@
 										<label class="control-label col-md-4" for="manufacturer">Manufacturer:</label>
 										<div class="col-md-8">
 											<select class="form-control" id="manufacturer" name="manufacturer" disabled>
-												<option value="all">Select manufacturer</option>
+												<option value="">Select manufacturer</option>
 												<? if(isset($manufacturers)) {
 													foreach($manufacturers as $manufacturer){ ?>
-												<option value="<?= $manufacturer['id']?>"><?= $manufacturer['name'] ?></option>
+												<option value="<?= $manufacturer['name']?>"><?= $manufacturer['name'] ?></option>
 												<? } }?>
 											</select>
 										</div>
@@ -67,7 +67,7 @@
 										<label class="control-label col-md-3" for="brand">Brand:</label>
 										<div class="col-md-9">
 											<select class="form-control" id="brand" name="brand" disabled>
-												<option value="all">Select brand</option>
+												<option value="">Select brand</option>
 											</select>
 										</div>
 									</div>
@@ -86,7 +86,7 @@
 										<label class="control-label col-md-3" for="province">Province:</label>
 										<div class="col-md-6">
 											<select class="form-control" id="province" name="province" disabled>
-												<option value="all">Province</option>
+												<option value="">Province</option>
 												<? if(isset($provinces)){
 													foreach($provinces as $province) { ?>
 												<option value="<?= $province ?>"><?= ucfirst($province) ?></option> 
@@ -99,7 +99,7 @@
 										<label class="control-label col-md-3" for="city">City:</label>
 										<div class="col-md-6">
 											<select class="form-control" id="city" name="city" disabled>
-												<option value="all">City</option>
+												<option value="">City</option>
 												<? if(isset($cities)){
 													foreach($cities as $city) { ?>
 												<option value="<?= $city ?>"><?= ucfirst($city) ?></option> 

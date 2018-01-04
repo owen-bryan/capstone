@@ -3,7 +3,7 @@
 	<div class="row">
 		<div class="container panel panel-danger col-md-offset-1 col-md-10">
 			<? if(isset($message_body)) { ?>
-			<p><?= $message_body ?></p>
+			<p class="text-danger"><?= $message_body ?></p>
 			<? } ?>
 			<?= validation_errors(); ?>
 		</div>

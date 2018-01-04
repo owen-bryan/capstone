@@ -29,7 +29,7 @@ $(document).ready(function(){
 
 	$("#province").change(function()
 	{
-		if($("#province").val() != "all")
+		if($("#province").val() != "")
 		{
 			$("#city").prop('disabled', false);
 			$.get(
@@ -39,7 +39,7 @@ $(document).ready(function(){
 			{
 				var cities = $("#city");
 				cities.empty();
-				cities.append('<option value="all">City</option>');
+				cities.append('<option value="">City</option>');
 				for  (var i = 0; i < data.length; i++)
 				{
 					var row = data[i];
@@ -60,7 +60,7 @@ $(document).ready(function(){
 	
 	$("#manufacturer").change(function()
 	{
-		if($("#manufacturer").val() != "all")
+		if($("#manufacturer").val() != "")
 		{
 			$("#brand").prop('disabled', false);
 			$.get(
@@ -70,11 +70,11 @@ $(document).ready(function(){
 			{
 				var brands = $("#brand");
 				brands.empty();
-				brands.append('<option value="all">Brand</option>');
+				brands.append('<option value="">Brand</option>');
 				for  (var i = 0; i < data.length; i++)
 				{
 					var row = data[i];
-					brands.append('<option value="' + row.brand_id +'">' + row.brand_name + "</option>");
+					brands.append('<option value="' + row.brand_name +'">' + row.brand_name + "</option>");
 					console.log(row);
 				}
 			}

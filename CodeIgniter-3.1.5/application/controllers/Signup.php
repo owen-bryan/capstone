@@ -11,7 +11,7 @@ class Signup extends CI_Controller {
 		
 		$this->TPL['page'] = "Sign up";
 		$this->TPL['loggedIn'] = $this->ion_auth->logged_in();
-		
+		$this->TPL['admin'] = $this->ion_auth->is_admin();
 		
 		
 	}
@@ -31,19 +31,20 @@ class Signup extends CI_Controller {
 	
 	public function add_user()
 	{
-		$this->form_validation->set_rules('uname', 'Username', 'required');
+		$this->form_validation->set_rules('uname', 'Username', 'required|callback_is_available');
 		$this->form_validation->set_rules('password', 'Password', 'required|min_length[10]');
 		$this->form_validation->set_rules('confirm_password', 'Password confirmation', 'callback_match_password');
 		$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
 		$this->form_validation->set_rules('confirm_email', 'Email confirmation', 'callback_match_email');
-		$this->form_validation->set_rules('sec_question', 'Security question', 'required|alpha');
-		$this->form_validation->set_rules('sec_answer', 'Security answer', 'required|alpha');
+		$this->form_validation->set_rules('sec_question', 'Security question', 'required');
+		$this->form_validation->set_rules('sec_answer', 'Security answer', 'required');
 		$this->form_validation->set_rules('fname', 'First name', 'required|alpha');
 		$this->form_validation->set_rules('lname', 'Last name', 'required|alpha');
 		$this->form_validation->set_rules('address', 'Street address', 'required');
-		$this->form_validation->set_rules('city', 'City', 'required|alpha');
+		$this->form_validation->set_rules('city', 'City', 'required');
 		$this->form_validation->set_rules('province', 'Province', 'required');
 		$this->form_validation->set_rules('is_valid', 'Confirm information', 'required');
+		$this->form_validation->set_error_delimiters("<div class='text-danger'>", "</div>");
 		
 		if($this->form_validation->run() == true){
 			$username = $this->input->post('uname',true);
@@ -93,6 +94,23 @@ class Signup extends CI_Controller {
 		{
 			$this->TPL['message'] = true;
 			$this->template->show("signup", $this->TPL);
+		}
+	}
+	
+	public function is_available($str)
+	{
+		$exists = $this->db->like('user_name', $str)
+						->limit(1)
+						->from("USERS")
+						->count_all_results() > 0;
+		if(!$exists)
+		{
+			return true;
+		}
+		else
+		{
+			$this->form_validation->set_message('is_available', 'That Username is not available.');
+			return false;
 		}
 	}
 	
