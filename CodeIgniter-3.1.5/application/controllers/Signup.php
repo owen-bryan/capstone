@@ -12,6 +12,7 @@ class Signup extends CI_Controller {
 		$this->TPL['page'] = "Sign up";
 		$this->TPL['loggedIn'] = $this->ion_auth->logged_in();
 		$this->TPL['admin'] = $this->ion_auth->is_admin();
+		$this->TPL['username'] = $this->ion_auth->user()->row()->user_name;
 		
 		
 	}

@@ -12,7 +12,7 @@ class Search extends CI_Controller {
 		$this->TPL['page'] = "Search";
 		$this->TPL['loggedIn'] = $this->ion_auth->logged_in();
 		$this->TPL['admin'] = $this->ion_auth->is_admin();
-		
+		$this->TPL['username'] = $this->ion_auth->user()->row()->user_name;
 		if(isset($_GET['search_string']))
 		{
 			$this->TPL['search_string'] =  urldecode($this->input->get("search_string", true));
@@ -54,6 +54,13 @@ class Search extends CI_Controller {
 		{
 			$this->TPL['current_city'] =  urldecode($this->input->get("city", true));
 		}
+		if(isset($_GET['user']))
+		{
+			if(trim($this->input->get('user', true)) != "")
+			{
+				$this->TPL['current_user'] = urldecode($this->input->get('user', true));
+			}
+		}
 	}
 	
 	public function index()
@@ -65,17 +72,28 @@ class Search extends CI_Controller {
 	{	
 		if($_SERVER['REQUEST_METHOD'] = "GET")
 		{
+			$user = $this->ion_auth->user()->row();
 			
-			$this->db->select('ADS.ad_id, item_description, ad_title, item_condition, item_price, post_date, user_name, brand_name, image_location, city, province, category_name, USERS.user_name');
+			
+			$this->db->select('ADS.ad_id, item_description, ad_title, item_condition, item_price, user_id, public, post_date, user_name, image_location, city, province, USERS.user_name');
 			$this->db->from('ADS');
 			$this->db->join('USERS', 'ADS.user_id = USERS.id');
 			$this->db->join('BRANDS', 'ADS.brand_id = BRANDS.brand_id', "left");
-			$this->db->join('MANUFACTURERS', 'BRANDS.manufacturer_id = MANUFACTURERS.manufacturer_id');
-			$this->db->join('IMAGES', 'ADS.ad_id = IMAGES.ad_id');
-			$this->db->join('CATEGORIES', 'ADS.category_id = CATEGORIES.category_id');
+			$this->db->join('MANUFACTURERS', 'ADS.manufacturer_id = MANUFACTURERS.manufacturer_id', "left");
+			$this->db->join('IMAGES', 'ADS.ad_id = IMAGES.ad_id', "left");
+			$this->db->join('CATEGORIES', 'ADS.category_id = CATEGORIES.category_id', "left");
+			
+			if(isset($_GET['user']))
+			{
+				if(trim($this->input->get('user', true)) != "")
+				{
+					$this->db->like('user_name', $this->TPL['current_user']);
+				}
+			}
 			
 			if(isset($_GET['search_string']))
 			{
+				
 				$this->db->like('ad_title', $this->TPL['search_string']);
 			}
 			
@@ -157,8 +175,10 @@ class Search extends CI_Controller {
 				$this->db->order_by('bump_date DESC');
 			}
 			
-			$this->db->where('public', 1);
-			$this->db->where('reported', 0);
+			if(!$this->TPL['admin'])
+			{
+				$this->db->where('reported', 0);
+			}
 			$this->db->where('sold', 0);
 			
 			$query = $this->db->get();
@@ -170,59 +190,101 @@ class Search extends CI_Controller {
 				print_r($details);
 				echo "</pre>"; */
 				for($i = 0; $i< $query->num_rows(); $i++)
-				{
-					$this->TPL['results'][$i]['id'] = $details[$i]['ad_id'];
-					$this->TPL['results'][$i]['user'] = $details[$i]['user_name'];
-					$this->TPL['results'][$i]['title'] = $details[$i]['ad_title'];
-					$this->TPL['results'][$i]['condition'] = $details[$i]['item_condition'];
-					$this->TPL['results'][$i]['price'] = $details[$i]['item_price'];
-					$this->TPL['results'][$i]['desc'] = $details[$i]['item_description'];
-					$this->TPL['results'][$i]['date'] = date("d/m/Y", strtotime($details[$i]['post_date']));
-					$this->TPL['results'][$i]['location'] = ucfirst($details[$i]['city']) . ", " . ucfirst($details[$i]['province']);
-					if($details[$i]['image_location'] != null){
-						$this->TPL['results'][$i]['img'] = "https://csunix.mohawkcollege.ca/~000340128/private/capstone-project/CodeIgniter-3.1.5/uploads/" . $details[$i]['image_location'];
+				{	
+					if($details[$i]['user_id'] == $user->id)
+					{
+						
+						$this->TPL['results'][$i]['id'] = $details[$i]['ad_id'];
+						$this->TPL['results'][$i]['user'] = $details[$i]['user_name'];
+						$this->TPL['results'][$i]['title'] = $details[$i]['ad_title'];
+						$this->TPL['results'][$i]['condition'] = $details[$i]['item_condition'];
+						$this->TPL['results'][$i]['price'] = $details[$i]['item_price'];
+						$this->TPL['results'][$i]['desc'] = $details[$i]['item_description'];
+						$this->TPL['results'][$i]['date'] = date("d/m/Y", strtotime($details[$i]['post_date']));
+						$this->TPL['results'][$i]['location'] = ucfirst($details[$i]['city']) . ", " . ucfirst($details[$i]['province']);
+						if($details[$i]['image_location'] != null){
+							$this->TPL['results'][$i]['img'] = "https://csunix.mohawkcollege.ca/~000340128/private/capstone-project/CodeIgniter-3.1.5/uploads/" . $details[$i]['image_location'];
+							
+						}
+						else
+						{
+							$this->TPL['results'][$i]['img'] = "https://csunix.mohawkcollege.ca/~000340128/private/capstone-project/CodeIgniter-3.1.5/uploads/default.jpg";
+						}
 						
 					}
-					else
+					else if($details[$i]['public'] == true)
 					{
-						$this->TPL['results'][$i]['img'] = "";
+						$this->TPL['results'][$i]['id'] = $details[$i]['ad_id'];
+						$this->TPL['results'][$i]['user'] = $details[$i]['user_name'];
+						$this->TPL['results'][$i]['title'] = $details[$i]['ad_title'];
+						$this->TPL['results'][$i]['condition'] = $details[$i]['item_condition'];
+						$this->TPL['results'][$i]['price'] = $details[$i]['item_price'];
+						$this->TPL['results'][$i]['desc'] = $details[$i]['item_description'];
+						$this->TPL['results'][$i]['date'] = date("d/m/Y", strtotime($details[$i]['post_date']));
+						$this->TPL['results'][$i]['location'] = ucfirst($details[$i]['city']) . ", " . ucfirst($details[$i]['province']);
+						if($details[$i]['image_location'] != null){
+							$this->TPL['results'][$i]['img'] = "https://csunix.mohawkcollege.ca/~000340128/private/capstone-project/CodeIgniter-3.1.5/uploads/" . $details[$i]['image_location'];
+							
+						}
+						else
+						{
+							$this->TPL['results'][$i]['img'] = "https://csunix.mohawkcollege.ca/~000340128/private/capstone-project/CodeIgniter-3.1.5/uploads/default.jpg";
+						}
 					}
-					
-					$this->build_search_url();
-					if(!$this->input->get("province", true))
+					/* else
 					{
-						$this->get_provinces();
-					}
-					if($this->input->get("province", true) && !$this->input->get("city", true))
-					{
-						$this->get_cities();
-					}
-					if(!$this->input->get("category",true) || trim($this->TPL['current_category']) == "")
-					{
-						$this->get_categories();
-					}
-					if(!$this->input->get("condition",true))
-					{
-						$this->get_condition();
-					}
-					if(!$this->input->get("manufacturer",true) || trim($this->TPL['current_current_manufacturer']) == "")
-					{
-						$this->get_manufacturers();
-					}
-					if($this->input->get("manufacturer",true) || trim($this->TPL['current_brand']) == "")
-					{
-						$this->get_brands();
-					}
-					
+						$this->TPL['results'][$i]['id'] = $details[$i]['ad_id'];
+						$this->TPL['results'][$i]['user'] = $details[$i]['user_name'];
+						$this->TPL['results'][$i]['title'] = $details[$i]['ad_title'];
+						$this->TPL['results'][$i]['condition'] = $details[$i]['item_condition'];
+						$this->TPL['results'][$i]['price'] = $details[$i]['item_price'];
+						$this->TPL['results'][$i]['desc'] = $details[$i]['item_description'];
+						$this->TPL['results'][$i]['date'] = date("d/m/Y", strtotime($details[$i]['post_date']));
+						$this->TPL['results'][$i]['location'] = ucfirst($details[$i]['city']) . ", " . ucfirst($details[$i]['province']);
+						if($details[$i]['image_location'] != null){
+							$this->TPL['results'][$i]['img'] = "https://csunix.mohawkcollege.ca/~000340128/private/capstone-project/CodeIgniter-3.1.5/uploads/" . $details[$i]['image_location'];
+							
+						}
+						else
+						{
+							$this->TPL['results'][$i]['img'] = "https://csunix.mohawkcollege.ca/~000340128/private/capstone-project/CodeIgniter-3.1.5/uploads/default.jpg";
+						}
+					}  */
 				}
+				
+				$this->build_search_url();
+				if(!$this->input->get("province", true))
+				{
+					$this->get_provinces();
+				}
+				if($this->input->get("province", true) && !$this->input->get("city", true))
+				{
+					$this->get_cities();
+				}
+				if(!$this->input->get("category",true) || trim($this->TPL['current_category']) == "")
+				{
+					$this->get_categories();
+				}
+				if(!$this->input->get("condition",true))
+				{
+					$this->get_condition();
+				}
+				if(!$this->input->get("manufacturer",true) || trim($this->TPL['current_current_manufacturer']) == "")
+				{
+					$this->get_manufacturers();
+				}
+				if($this->input->get("manufacturer",true) || trim($this->TPL['current_brand']) == "")
+				{
+					$this->get_brands();
+				}	
 			}
 		}
 		
-		echo "<pre>";
+       /*  echo "<pre>";
 		print_r($this->TPL);
 		//print_r($_SESSION);
 		//print_r($this->ion_auth->get_users_groups($user->id)->result());
-		echo "</pre>";
+		echo "</pre>"; */
 		
 		$this->template->show('search', $this->TPL);
 	}
@@ -325,10 +387,11 @@ class Search extends CI_Controller {
 		$this->db->select('province');
 		$this->db->from('ADS');
 		$this->db->join('USERS', 'ADS.user_id = USERS.id');
-		$this->db->join('CATEGORIES', 'ADS.category_id = CATEGORIES.category_id');
-		$this->db->join('BRANDS', 'ADS.brand_id = BRANDS.brand_id');
-		$this->db->join('MANUFACTURERS', 'BRANDS.manufacturer_id = MANUFACTURERS.manufacturer_id');
+		$this->db->join('CATEGORIES', 'ADS.category_id = CATEGORIES.category_id', "left");
+		$this->db->join('BRANDS', 'ADS.brand_id = BRANDS.brand_id', "left");
+		$this->db->join('MANUFACTURERS', 'ADS.manufacturer_id = MANUFACTURERS.manufacturer_id', "left");
 		
+		$this->db->where('province IS NOT NULL');
 		if(isset($_GET['search_string']))
 		{
 			$this->db->like('ad_title', $this->input->get('search_string', true));
@@ -386,12 +449,14 @@ class Search extends CI_Controller {
 			
 		if(isset($_GET['brand']))
 		{
-			$this->db->where('brand_name', $this->input->get('brand', true));
+			if(trim($this->input->get('manufacturer', true)) != "" )
+			{
+				$this->db->where('brand_name', $this->input->get('brand', true));
+			}
 		}
 			
 		$this->db->order_by('province ASC');
 			
-		$this->db->where('public', 1);
 		$this->db->where('reported', 0);
 		$this->db->where('sold', 0);
 			
@@ -412,10 +477,11 @@ class Search extends CI_Controller {
 		$this->db->select('city');
 		$this->db->from('ADS');
 		$this->db->join('USERS', 'ADS.user_id = USERS.id');
-		$this->db->join('CATEGORIES', 'ADS.category_id = CATEGORIES.category_id');
-		$this->db->join('BRANDS', 'ADS.brand_id = BRANDS.brand_id');
-		$this->db->join('MANUFACTURERS', 'BRANDS.manufacturer_id = MANUFACTURERS.manufacturer_id');
+		$this->db->join('CATEGORIES', 'ADS.category_id = CATEGORIES.category_id', "left");
+		$this->db->join('BRANDS', 'ADS.brand_id = BRANDS.brand_id', "left");
+		$this->db->join('MANUFACTURERS', 'ADS.manufacturer_id = MANUFACTURERS.manufacturer_id', "left");
 		
+		$this->db->where('city IS NOT NULL');
 		if(isset($_GET['search_string']))
 		{
 			$this->db->like('ad_title', $this->input->get('search_string', true));
@@ -478,7 +544,6 @@ class Search extends CI_Controller {
 			
 		$this->db->order_by('city ASC');
 			
-		$this->db->where('public', 1);
 		$this->db->where('reported', 0);
 		$this->db->where('sold', 0);
 			
@@ -497,11 +562,12 @@ class Search extends CI_Controller {
 		$this->db->distinct();
 		$this->db->select('item_condition');
 		$this->db->from('ADS');
-		$this->db->join('USERS', 'ADS.user_id = USERS.id');
-		$this->db->join('CATEGORIES', 'ADS.category_id = CATEGORIES.category_id');
-		$this->db->join('BRANDS', 'ADS.brand_id = BRANDS.brand_id');
-		$this->db->join('MANUFACTURERS', 'BRANDS.manufacturer_id = MANUFACTURERS.manufacturer_id');
+		$this->db->join('USERS', 'ADS.user_id = USERS.id', "left");
+		$this->db->join('CATEGORIES', 'ADS.category_id = CATEGORIES.category_id', "left");
+		$this->db->join('BRANDS', 'ADS.brand_id = BRANDS.brand_id', "left");
+		$this->db->join('MANUFACTURERS', 'ADS.manufacturer_id = MANUFACTURERS.manufacturer_id', "left");
 		
+		$this->db->where('item_condition IS NOT NULL');
 		
 		if(isset($_GET['search_string']))
 		{
@@ -577,7 +643,6 @@ class Search extends CI_Controller {
 			
 		$this->db->order_by('item_condition ASC');
 			
-		$this->db->where('public', 1);
 		$this->db->where('reported', 0);
 		$this->db->where('sold', 0);
 			
@@ -597,9 +662,11 @@ class Search extends CI_Controller {
 		$this->db->select('category_name');
 		$this->db->from('ADS');
 		$this->db->join('USERS', 'ADS.user_id = USERS.id');
-		$this->db->join('CATEGORIES', 'ADS.category_id = CATEGORIES.category_id');
-		$this->db->join('BRANDS', 'ADS.brand_id = BRANDS.brand_id');
-		$this->db->join('MANUFACTURERS', 'BRANDS.manufacturer_id = MANUFACTURERS.manufacturer_id');
+		$this->db->join('CATEGORIES', 'ADS.category_id = CATEGORIES.category_id', "left");
+		$this->db->join('BRANDS', 'ADS.brand_id = BRANDS.brand_id', "left");
+		$this->db->join('MANUFACTURERS', 'ADS.manufacturer_id = MANUFACTURERS.manufacturer_id', "left");
+		
+		$this->db->where('category_name IS NOT NULL');
 		
 		if(isset($_GET['search_string']))
 		{
@@ -665,7 +732,6 @@ class Search extends CI_Controller {
 			
 		$this->db->order_by('category_name ASC');
 			
-		$this->db->where('public', 1);
 		$this->db->where('reported', 0);
 		$this->db->where('sold', 0);
 			
@@ -685,9 +751,11 @@ class Search extends CI_Controller {
 		$this->db->select('manufacturer_name');
 		$this->db->from('ADS');
 		$this->db->join('USERS', 'ADS.user_id = USERS.id');
-		$this->db->join('CATEGORIES', 'ADS.category_id = CATEGORIES.category_id');
-		$this->db->join('BRANDS', 'ADS.brand_id = BRANDS.brand_id');
-		$this->db->join('MANUFACTURERS', 'BRANDS.manufacturer_id = MANUFACTURERS.manufacturer_id');
+		$this->db->join('CATEGORIES', 'ADS.category_id = CATEGORIES.category_id', "left");
+		$this->db->join('BRANDS', 'ADS.brand_id = BRANDS.brand_id', "left");
+		$this->db->join('MANUFACTURERS', 'ADS.manufacturer_id = MANUFACTURERS.manufacturer_id', "left");
+		
+		$this->db->where('manufacturer_name IS NOT NULL');
 		
 		if(isset($_GET['search_string']))
 		{
@@ -744,7 +812,6 @@ class Search extends CI_Controller {
 			
 		$this->db->order_by('manufacturer_name ASC');
 			
-		$this->db->where('public', 1);
 		$this->db->where('reported', 0);
 		$this->db->where('sold', 0);
 			
@@ -763,11 +830,13 @@ class Search extends CI_Controller {
 		$this->db->distinct();
 		$this->db->select('brand_name');
 		$this->db->from('ADS');
-		$this->db->join('USERS', 'ADS.user_id = USERS.id');
-		$this->db->join('CATEGORIES', 'ADS.category_id = CATEGORIES.category_id');
-		$this->db->join('BRANDS', 'ADS.brand_id = BRANDS.brand_id');
-		$this->db->join('MANUFACTURERS', 'BRANDS.manufacturer_id = MANUFACTURERS.manufacturer_id');
+		$this->db->join('USERS', 'ADS.user_id = USERS.id', "left");
+		$this->db->join('CATEGORIES', 'ADS.category_id = CATEGORIES.category_id', "left");
+		$this->db->join('BRANDS', 'ADS.brand_id = BRANDS.brand_id', "left");
+		$this->db->join('MANUFACTURERS', 'ADS.manufacturer_id = MANUFACTURERS.manufacturer_id', "left");
 		
+		
+		$this->db->where('brand_name IS NOT NULL');
 		if(isset($_GET['search_string']))
 		{
 			$this->db->like('ad_title', $this->input->get('search_string', true));
@@ -787,6 +856,15 @@ class Search extends CI_Controller {
 			if(trim($this->input->get('city', true)) != "" )
 			{
 				$this->db->where('city', $this->input->get('city', true));
+			}
+			
+		}
+		
+		if(isset($_GET['manufacturer']))
+		{
+			if(trim($this->input->get('manufacturer', true)) != "" )
+			{
+				$this->db->where('manufacturer_name', $this->input->get('manufacturer', true));
 			}
 			
 		}
@@ -815,10 +893,9 @@ class Search extends CI_Controller {
 				$this->db->where('item_condition', $this->input->get('condition', true));
 			}
 		}
-			
+		
 		$this->db->order_by('brand_name ASC');
 			
-		$this->db->where('public', 1);
 		$this->db->where('reported', 0);
 		$this->db->where('sold', 0);
 			

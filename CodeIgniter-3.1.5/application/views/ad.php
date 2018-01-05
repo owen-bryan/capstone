@@ -34,7 +34,7 @@
 				<div class="container col-md-2">
 					<a href="<?= base_url() . "index.php?c=message&m=new_message&ad_id=" . $details['ad_id'] . "&user=" . $details['id'] ?>" class="col-md-12 btn btn-primary">Contact this user</a>
 					<? if($details['id'] == $this->ion_auth->user()->row()->id){ ?>
-					<a href="<?= base_url(). "index.php?c=ad&m=edit&ad=".$details['ad_id'] ?>" class="col-md-12 btn btn-default">Edit</a>
+					<a href="<?= base_url(). "index.php?c=edit&m=edit_ad&ad=".$details['ad_id'] ?>" class="col-md-12 btn btn-default">Edit</a>
 					<? } ?>
 				</div>
 			</div>

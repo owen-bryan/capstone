@@ -11,19 +11,20 @@
 	<? }?>
 	<div class="row">
 		<div class= "container panel panel-default col-md-10 col-md-offset-1">
-			<h2>New ad</h2>
+			<h2>Edit ad</h2>
 			<hr/>
-			<form method="post" action="<?= base_url() . "index.php?c=PostAnAd&m=new_ad"?>" enctype="multipart/form-data" class="form-horizontal">
+			<form method="post" action="<?= base_url() . "index.php?c=edit&m=edit_ad_submit"?>" enctype="multipart/form-data" class="form-horizontal">
+				<input type="hidden" name="ad" value="<?= $ad_id ?>"/>
 				<div class="form-group">
 					<label class="control-label col-md-3" for="title">Title:</label>
 					<div class="col-md-6">
-						<input type="text" class="form-control" id="title" name="title" value="<?= set_value('title');?>"/>
+						<input type="text" class="form-control" id="title" name="title" placeholder="<?= $ad[0]['ad_title'] ?>" value="<?= set_value('title');?>"/>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3" for="price">Price:</label>
 					<div class="col-md-6">
-						<input type="text" class="form-control" id="price" name="price" value="<?= set_value('price');?>"/>
+						<input type="text" class="form-control" id="price" name="price"  placeholder="<?= $ad[0]['item_price'] ?>" value="<?= set_value('price');?>"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -42,7 +43,8 @@
 					<label class="control-label col-md-3" for="condition">Condition:</label>
 					<div class="col-md-6">
 						<select class="form-control" id="condition" name="condition"/>
-							<option value="Near mint">Near Mint</option>
+							<option value="">Condition</option>
+							<option value="Near mint">Near mint</option>
 							<option value="Lightly played">Lightly played</option>
 							<option value="Moderately played">Moderately played</option>
 							<option value="Heavily played">Heavily played</option>
@@ -80,13 +82,13 @@
 				<div class="form-group">
 					<label class="control-label col-md-3" for="description">Description:</label>
 					<div class="col-md-6">
-						<textarea class="form-control"  rows="5" id="description" name="description"><?= set_value('description');?></textarea>
+						<textarea class="form-control"  rows="5" id="description" name="description" placeholder="<?= $ad[0]['item_description'] ?>"><?= set_value('description');?></textarea>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-md-3" for="image">Item Picture:</label>
 					<div class="col-md-6">
-						<input type="file" class="form-control" name="image" id="image" value="<? set_value('image') ?>"/>
+						<input type="file" class="form-control" name="image" id="image"/>
 					</div>
 				</div>
 				<div class="form-group">
