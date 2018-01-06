@@ -75,8 +75,8 @@
 				<div class="form-group">
 					<label class="control-label col-md-3" for="visibility">Visibility:</label>
 					<div class="col-md-6">
-						<label class="radio-inline"><input type="radio" id="visibility" name="visibility" value="true" checked> Public</input></label>
-						<label class="radio-inline"><input type="radio" id="visibility" name="visibility" value="false"> Private</input></label>
+						<label class="radio-inline"><input type="radio" id="visibility" name="visibility" value="true" <? if($ad[0]['public'] == true) {?>checked<? } ?>> Public</input></label>
+						<label class="radio-inline"><input type="radio" id="visibility" name="visibility" value="false" <? if($ad[0]['public'] == false) {?>checked<? } ?>> Private</input></label>
 					</div>
 				</div>
 				<div class="form-group">

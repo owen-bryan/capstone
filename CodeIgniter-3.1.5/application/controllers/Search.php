@@ -1,6 +1,8 @@
 <?php 
 defined('BASEPATH') or exit('No direct script access allowed');
-
+/*
+	Class by: Owen Bryan, 000340128.
+*/
 class Search extends CI_Controller {
 	
 	var $TPL;
@@ -68,6 +70,9 @@ class Search extends CI_Controller {
 		$this->display();
 	}
 	
+	/* 
+		Search for the ads then output them to the user. Also build urls and retrieve information about ads for searching.
+	*/
 	public function display()
 	{	
 		if($_SERVER['REQUEST_METHOD'] = "GET")
@@ -75,7 +80,7 @@ class Search extends CI_Controller {
 			$user = $this->ion_auth->user()->row();
 			
 			
-			$this->db->select('ADS.ad_id, item_description, ad_title, item_condition, item_price, user_id, public, post_date, user_name, image_location, city, province, USERS.user_name');
+			$this->db->select('ADS.ad_id, item_description, ad_title, item_condition, item_price, user_id, public, sold, post_date, user_name, image_location, city, province, USERS.user_name');
 			$this->db->from('ADS');
 			$this->db->join('USERS', 'ADS.user_id = USERS.id');
 			$this->db->join('BRANDS', 'ADS.brand_id = BRANDS.brand_id', "left");
@@ -161,13 +166,21 @@ class Search extends CI_Controller {
 			
 			if(isset($_GET['sort']))
 			{
-				if($this->input->get('sort', true) == "newest")
-				{
-					$this->db->order_by('bump_date DESC');
-				}
-				else if($this->input->get('sort', true) == "oldest")
+				if($this->input->get('sort', true) == "oldest")
 				{
 					$this->db->order_by('bump_date ASC');
+				}
+				else if($this->input->get('sort', true) == "highest")
+				{
+					$this->db->order_by('item_price DESC');
+				}
+				else if($this->input->get('sort', true) == "lowest")
+				{
+					$this->db->order_by('item_price ASC');
+				}
+				else
+				{
+					$this->db->order_by('bump_date DESC');
 				}
 			}
 			else
@@ -178,8 +191,16 @@ class Search extends CI_Controller {
 			if(!$this->TPL['admin'])
 			{
 				$this->db->where('reported', 0);
+				
 			}
-			$this->db->where('sold', 0);
+			
+			if($this->TPL['admin'] && $this->input->get("reported") == "true")
+			{
+				$this->db->where('reported', 1);
+			}
+			
+			
+			$this->db->where('deleted', 0);
 			
 			$query = $this->db->get();
 			
@@ -212,7 +233,7 @@ class Search extends CI_Controller {
 						}
 						
 					}
-					else if($details[$i]['public'] == true)
+					else if($details[$i]['public'] == true && $details[$i]['sold'] == false)
 					{
 						$this->TPL['results'][$i]['id'] = $details[$i]['ad_id'];
 						$this->TPL['results'][$i]['user'] = $details[$i]['user_name'];
@@ -289,6 +310,9 @@ class Search extends CI_Controller {
 		$this->template->show('search', $this->TPL);
 	}
 	
+	/*
+		This function builds the base search url for easier searching.
+	*/
 	private function build_search_url()
 	{
 		$url = "c=search&m=display";
@@ -380,7 +404,9 @@ class Search extends CI_Controller {
 		//echo $url;
 		$this->TPL['base_search'] = $url;
 	}
-	
+	/*
+		This function outputs a list of provinces for search filtering.
+	*/
 	private function get_provinces()
 	{
 		$this->db->distinct();
@@ -401,7 +427,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('condition', true)) != "")
 			{
-				$this->db->where('item_condition', $this->input->get('condition', true));
+				$this->db->like('item_condition', $this->input->get('condition', true));
 			}
 		}
 			
@@ -409,7 +435,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('category', true)) != "")
 			{
-				$this->db->where('category_name', $this->input->get('category', true));
+				$this->db->like('category_name', $this->input->get('category', true));
 			}
 		}
 		
@@ -417,7 +443,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('city', true)) != "")
 			{
-				$this->db->where('city', $this->input->get('city', true));
+				$this->db->like('city', $this->input->get('city', true));
 			}
 			
 		}
@@ -442,7 +468,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('manufacturer', true)) != "" )
 			{
-				$this->db->where('manufacturer_name', $this->input->get('manufacturer', true));
+				$this->db->like('manufacturer_name', $this->input->get('manufacturer', true));
 			}
 			
 		}
@@ -451,7 +477,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('manufacturer', true)) != "" )
 			{
-				$this->db->where('brand_name', $this->input->get('brand', true));
+				$this->db->like('brand_name', $this->input->get('brand', true));
 			}
 		}
 			
@@ -470,7 +496,9 @@ class Search extends CI_Controller {
 		}
 	}
 	
-	
+	/*
+		This function outputs a list of cities for search filtering.
+	*/
 	private function get_cities()
 	{
 		$this->db->distinct();
@@ -491,7 +519,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('category', true)) != "")
 			{
-				$this->db->where('category_name', $this->input->get('category', true));
+				$this->db->like('category_name', $this->input->get('category', true));
 			}
 		}
 		
@@ -499,7 +527,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('condition', true)) != "")
 			{
-				$this->db->where('item_condition', $this->input->get('condition', true));
+				$this->db->like('item_condition', $this->input->get('condition', true));
 			}
 		}
 		
@@ -507,7 +535,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('province', true)) != "" )
 			{
-				$this->db->where('province', $this->input->get('province', true));
+				$this->db->like('province', $this->input->get('province', true));
 			}
 			
 		}
@@ -532,7 +560,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('manufacturer', true)) != "" )
 			{
-				$this->db->where('manufacturer_name', $this->input->get('manufacturer', true));
+				$this->db->like('manufacturer_name', $this->input->get('manufacturer', true));
 			}
 			
 		}
@@ -557,6 +585,9 @@ class Search extends CI_Controller {
 		}
 	}
 	
+	/*
+		This function outputs a list of conditions for search filtering.
+	*/
 	private function get_condition()
 	{
 		$this->db->distinct();
@@ -578,7 +609,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('category', true)) != "")
 			{
-				$this->db->where('category_name', $this->input->get('category', true));
+				$this->db->like('category_name', $this->input->get('category', true));
 			}
 		}
 		
@@ -586,7 +617,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('province', true)) != "" )
 			{
-				$this->db->where('province', $this->input->get('province', true));
+				$this->db->like('province', $this->input->get('province', true));
 			}
 			
 		}
@@ -595,7 +626,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('manufacturer', true)) != "")
 			{
-				$this->db->where('manufacturer_name', $this->input->get('manufacturer', true));
+				$this->db->like('manufacturer_name', $this->input->get('manufacturer', true));
 			}
 			
 		}
@@ -604,7 +635,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('city', true)) != "" && trim($this->input->get('city', true)) != "")
 			{
-				$this->db->where('city', $this->input->get('city', true));
+				$this->db->like('city', $this->input->get('city', true));
 			}
 			
 		}
@@ -630,7 +661,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('condition', true)) != "")
 			{
-				$this->db->where('item_condition', $this->input->get('condition', true));
+				$this->db->like('item_condition', $this->input->get('condition', true));
 			}
 		}
 		
@@ -638,7 +669,7 @@ class Search extends CI_Controller {
 			
 		if(isset($_GET['brand']))
 		{
-			$this->db->where('brand_name', $this->input->get('brand', true));
+			$this->db->like('brand_name', $this->input->get('brand', true));
 		}
 			
 		$this->db->order_by('item_condition ASC');
@@ -656,6 +687,9 @@ class Search extends CI_Controller {
 		}
 	}
 	
+	/*
+		This function outputs a list of categories for search filtering.
+	*/
 	private function get_categories()
 	{
 		$this->db->distinct();
@@ -677,7 +711,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('province', true)) != "")
 			{
-				$this->db->where('province', $this->input->get('province', true));
+				$this->db->like('province', $this->input->get('province', true));
 			}
 			
 		}
@@ -686,7 +720,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('city', true)) != "")
 			{
-				$this->db->where('city', $this->input->get('city', true));
+				$this->db->like('city', $this->input->get('city', true));
 			}
 			
 		}
@@ -712,7 +746,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('condition', true)) != "")
 			{
-				$this->db->where('item_condition', $this->input->get('condition', true));
+				$this->db->like('item_condition', $this->input->get('condition', true));
 			}
 		}
 			
@@ -745,6 +779,9 @@ class Search extends CI_Controller {
 		}
 	}
 	
+	/*
+		This function outputs a list of manufacturers for search filtering.
+	*/
 	private function get_manufacturers()
 	{
 		$this->db->distinct();
@@ -766,7 +803,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('province', true)) != "" )
 			{
-				$this->db->where('province', $this->input->get('province', true));
+				$this->db->like('province', $this->input->get('province', true));
 			}
 			
 		}
@@ -775,7 +812,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('city', true)) != "" )
 			{
-				$this->db->where('city', $this->input->get('city', true));
+				$this->db->like('city', $this->input->get('city', true));
 			}
 			
 		}
@@ -801,13 +838,13 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('condition', true)) != "")
 			{
-				$this->db->where('item_condition', $this->input->get('condition', true));
+				$this->db->like('item_condition', $this->input->get('condition', true));
 			}
 		}
 			
 		if(isset($_GET['brand']))
 		{
-			$this->db->where('brand_name', $this->input->get('brand', true));
+			$this->db->like('brand_name', $this->input->get('brand', true));
 		}
 			
 		$this->db->order_by('manufacturer_name ASC');
@@ -825,6 +862,9 @@ class Search extends CI_Controller {
 		}
 	}
 	
+	/*
+		This function outputs a list of brands for search filtering.
+	*/
 	private function get_brands()
 	{
 		$this->db->distinct();
@@ -846,7 +886,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('province', true)) != "" )
 			{
-				$this->db->where('province', $this->input->get('province', true));
+				$this->db->like('province', $this->input->get('province', true));
 			}
 			
 		}
@@ -855,7 +895,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('city', true)) != "" )
 			{
-				$this->db->where('city', $this->input->get('city', true));
+				$this->db->like('city', $this->input->get('city', true));
 			}
 			
 		}
@@ -864,7 +904,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('manufacturer', true)) != "" )
 			{
-				$this->db->where('manufacturer_name', $this->input->get('manufacturer', true));
+				$this->db->like('manufacturer_name', $this->input->get('manufacturer', true));
 			}
 			
 		}
@@ -890,7 +930,7 @@ class Search extends CI_Controller {
 		{
 			if(trim($this->input->get('condition', true)) != "")
 			{
-				$this->db->where('item_condition', $this->input->get('condition', true));
+				$this->db->like('item_condition', $this->input->get('condition', true));
 			}
 		}
 		
@@ -909,13 +949,16 @@ class Search extends CI_Controller {
 		}
 	}
 	
+	/* 
+		A function to get the cities and output them to json for posting and robust search. 
+	*/
 	public function get_cities_json()
 	{
 		$results;
 		if($_SERVER['REQUEST_METHOD'] == 'GET')
 		{
 			$province = $this->input->get('province', true);
-			$query = $this->db->query("SELECT DISTINCT `city` FROM `USERS` WHERE LOWER(`province`) LIKE '%$province%' ORDER BY `city` DESC;");
+			$query = $this->db->query("SELECT DISTINCT `city` FROM `USERS` WHERE LOWER(`province`) LIKE '%$province%' ORDER BY `city` ASC;");
 			
 			if($query)
 			{
@@ -926,14 +969,16 @@ class Search extends CI_Controller {
 			}
 		}
 	}
-	
+	/* 
+		A function to get the brands and output them to json for posting and robust search. 
+	*/
 	public function get_brands_json()
 	{
 		$results;
 		if($_SERVER['REQUEST_METHOD'] == 'GET')
 		{
 			$manufacturer = $this->input->get('manufacturer', true);
-			$query = $this->db->query("SELECT DISTINCT `BRANDS`.`brand_id`, `brand_name` FROM `BRANDS` JOIN `ADS` ON `BRANDS`.`brand_id` = `ADS`.`brand_id` WHERE `BRANDS`.`manufacturer_id`= 
+			$query = $this->db->query("SELECT DISTINCT `brand_id`, `brand_name` FROM `BRANDS` WHERE `manufacturer_id`= 
 			(SELECT `manufacturer_id` FROM `MANUFACTURERS` WHERE `manufacturer_name` LIKE ?) ORDER BY `brand_name` ASC;", $manufacturer);
 			
 			if($query)

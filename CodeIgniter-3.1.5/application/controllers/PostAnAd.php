@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+/*
+	Class by: Owen Bryan, 000340128.
+*/
 class PostAnAd extends CI_Controller {
 	
 	
@@ -35,6 +37,9 @@ class PostAnAd extends CI_Controller {
 		
 	}
 	
+	/*
+		Retrieve categorical data, provinces and manufacturers for the user to input in their ad posting.
+	*/
 	private function get_data()
 	{
 		$query = $this->db->query("SELECT * FROM CATEGORIES ORDER BY `category_name` ASC;");
@@ -50,17 +55,7 @@ class PostAnAd extends CI_Controller {
 			}
 		}
 		
-		$query = $this->db->query("SELECT DISTINCT `province` FROM `USERS` WHERE `banned`= 0 ORDER BY `province` ASC");
-		
-		if($query)
-		{
-			$i = 0;
-			foreach($query->result_array() as $row)
-			{
-				$this->TPL['provinces'][$i] = $row['province'];
-				$i++;
-			}
-		}
+	
 		
 		$query = $this->db->query("SELECT `manufacturer_id`, `manufacturer_name` FROM `MANUFACTURERS` ORDER BY `manufacturer_name` ASC ");
 		
@@ -81,6 +76,9 @@ class PostAnAd extends CI_Controller {
 		
 	}
 
+	/*
+		Validates the ad then adds it to the database.
+	*/
 	public function new_ad()
 	{
 		if($_SERVER['REQUEST_METHOD'] == "POST")
@@ -88,8 +86,8 @@ class PostAnAd extends CI_Controller {
 			$this->form_validation->set_rules('title', 'Ad Title', 'trim|required');
 			$this->form_validation->set_rules('price', 'Ad Price', 'trim|required|numeric|callback__validate_price');
 			$this->form_validation->set_rules('description', 'Description', 'trim');
-			$this->form_validation->set_rules('condition', 'Condition', 'trim|callback__validate_condition');
-			$this->form_validation->set_rules('brand', 'Condition', 'trim|callback__validate_brand');
+			$this->form_validation->set_rules('condition', 'Condition', 'trim|callback__validate_condition|required');
+			$this->form_validation->set_rules('brand', 'Brand', 'trim|callback__validate_brand');
 			$this->form_validation->set_rules('manufacturer', 'Condition', 'trim|callback__validate_manufacturer');
 			if(is_uploaded_file($_FILES['image']['name']) )
 			{
@@ -158,10 +156,10 @@ class PostAnAd extends CI_Controller {
 						{
 							$this->db->insert('IMAGES', array('owner_id' => $this->ion_auth->users()->row()->id, 'image_location' => $this->TPL['image_location'], 'ad_id' => $ad_id));
 						}
-						//redirect("c=Ad&ad=$ad_id");
-						echo "<pre>";
+						redirect("c=Ad&ad=$ad_id");
+						/* echo "<pre>";
 						print_r($_FILES);
-						echo "</pre>";
+						echo "</pre>"; */
 						
 					}else
 						{
@@ -192,6 +190,10 @@ class PostAnAd extends CI_Controller {
 		}
 	}
 	
+	
+	/*
+		This validates the condition to ensure it is a real condition and not some means of adding something to the database.
+	*/
 	public function _validate_condition($str)
 	{
 		if($str == "Lightly played" || $str == "Near mint" || $str == "Moderately played" || $str == "Heavily played" || $str == "Damaged")
@@ -205,6 +207,9 @@ class PostAnAd extends CI_Controller {
 		}
 	} 
 	
+	/*
+		This validates the manufacturer to ensure it is a real manufacturer and not some means of adding something to the database.
+	*/
 	public function _validate_manufacturer($str)
 	{
 		$exists = $this->db->like('manufacturer_name', $str)
@@ -222,6 +227,9 @@ class PostAnAd extends CI_Controller {
 		}
 	}
 
+	/*
+		This validates the brand to ensure it is a real brand and not some means of adding something to the database.
+	*/
 	public function _validate_brand($str)
 	{
 		$exists = $this->db->like('brand_name', $str)
@@ -239,6 +247,9 @@ class PostAnAd extends CI_Controller {
 		}
 	} 
 	
+	/*
+		This validates the price and makes sure it is greater than 0.
+	*/
 	public function _validate_price($price)
 	{
 		
@@ -252,6 +263,10 @@ class PostAnAd extends CI_Controller {
 			return false;
 		}
 	}
+	
+	/*
+		This function checks the category to see if it exists.
+	*/
 	public function _validate_category($str)
 	{
 		$exists = $this->db->like('category_name', $str)
@@ -270,6 +285,9 @@ class PostAnAd extends CI_Controller {
 		}
 	}
 	
+	/* 
+		This is the upload validation it attempts to upload a image and returns true if successful.
+	*/
 	public function _upload_validation()
 	{
 		$config['upload_path'] = './uploads/';

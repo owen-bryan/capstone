@@ -1,6 +1,8 @@
 <?php 
 defined('BASEPATH') or exit('No direct script access allowed');
-
+/*
+	Class by: Owen Bryan, 000340128.
+*/
 class Login extends CI_Controller {
 	
 	var $TPL;
@@ -30,34 +32,59 @@ class Login extends CI_Controller {
 		}
 	}
 	
+	/*
+		Main login function. It checks if the user is banned, then attempts to log them in.
+	*/
 	public function login()
 	{
 		$username = $this->input->post('uname', true);
 		$password = $this->input->post('password', true);
-		
-		if($this->ion_auth->login($username, $password))
+		$banned = $exists = $this->db->like('banned', 1)->like('user_name', $username)
+						->limit(1)
+						->from("USERS")
+						->count_all_results() > 0;
+		if($banned == false)
 		{
-			redirect("c=home");
+			if($this->ion_auth->login($username, $password))
+			{
+				redirect("c=home");
+			}
+			else
+			{
+				$this->TPL['error'] = true;
+				$this->TPL['error_msg'] = "Invalid username or password";
+				$this->template->show('login', $this->TPL);
+			}
+			
 		}
 		else
 		{
 			$this->TPL['error'] = true;
-			$this->TPL['error_msg'] = "Invalid username or password";
+			$this->TPL['error_msg'] = "That account has been banned";
 			$this->template->show('login', $this->TPL);
 		}
 	}
 
+	/*
+		This method logs out a logged in user.
+	*/
 	public function log_out()
 	{
 		$this->ion_auth->logout();
 		redirect("c=login");
 	}
 	
+	/*
+		This begins the password recover for the user.
+	*/
 	public function forgot_password()
 	{
 		$this->template->show("forgot_password", $this->TPL);
 	}
 	
+	/*
+		This is the first step of password recovery. It checks if the user exists then gets the recovery question from the database.
+	*/
 	public function forgot_password_question()
 	{
 		$username = $this->input->post("uname", true);
@@ -98,6 +125,9 @@ class Login extends CI_Controller {
 		
 	}
 	
+	/*
+		This is the second step of password recovery. It checks if the user inputted the correct answer, then, if correct allows them to change their password.
+	*/
 	public function forgot_password_answer()
 	{
 		$this->TPL['uid'] = $this->input->post('uid', true);
@@ -127,6 +157,9 @@ class Login extends CI_Controller {
 		}
 	}
 	
+	/*
+		This is the final step of password recovery. It validate the password then sets the user's password in the database if valid..
+	*/
 	public function reset_password()
 	{
 		$this->form_validation->set_rules('pword', 'Password', 'required|trim|min_length[10]');
@@ -148,6 +181,10 @@ class Login extends CI_Controller {
 			
 	}
 	
+	
+	/*
+		validate password function. It checks the the passwords match.
+	*/
 	public function match_password($str)
 	{
 		if($str == trim($_POST['pword']))

@@ -6,17 +6,22 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-5 center-block center-fix">
-						<a href="<?= base_url() . "index.php?/Admin/reported" ?>" class="btn btn-primary">View user reported content</a>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-4 center-block center-fix">
-						<a href="<?= base_url() . "index.php?/Admin/add_new_category" ?>" class="btn btn-primary">Add new category</a>
+						<a href="<?= base_url() . "index.php?c=admin&m=messages" ?>" class="btn btn-primary">View user reported messages</a>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-5 center-block center-fix">
-						<a href="<?= base_url() . "index.php?/Admin/add_new_brand" ?>" class="btn btn-primary">Add new  brand</a>
+						<a href="<?= base_url() . "index.php?c=search&m=display&reported=true" ?>" class="btn btn-primary">View user reported ads</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 center-block center-fix">
+						<a href="<?= base_url() . "index.php?c=Admin&m=category" ?>" class="btn btn-primary">Add new category</a>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-5 center-block center-fix">
+						<a href="<?= base_url() . "index.php?c=Admin&m=brand" ?>" class="btn btn-primary">Add new  brand</a>
 					</div>
 				</div>
 				<div class="row">

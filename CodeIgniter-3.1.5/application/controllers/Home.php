@@ -1,6 +1,8 @@
 <?php 
 defined('BASEPATH') or exit('No direct script access allowed');
-
+/*
+	Class by: Owen Bryan, 000340128.
+*/
 class Home extends CI_Controller {
 	
 	var $TPL;
@@ -18,7 +20,9 @@ class Home extends CI_Controller {
 		
 	}
 	
-	
+	/* 
+		Get the data for robust searching
+	*/
 	private function get_data()
 	{
 		$query = $this->db->query("SELECT * FROM CATEGORIES ORDER BY `category_name` ASC;");

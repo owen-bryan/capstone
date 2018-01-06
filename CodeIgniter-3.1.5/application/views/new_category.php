@@ -22,11 +22,11 @@
 		<div class= "container panel panel-default col-md-10 col-md-offset-1">
 			<h2>New Manufacturer</h2>
 			<hr/>
-			<form method="post" action="<?= base_url() . "index.php?c=admin&m=new_manufacturer"?>" class="form-horizontal">
+			<form method="post" action="<?= base_url() . "index.php?c=admin&m=new_category"?>" class="form-horizontal">
 				<div class="form-group">
-					<label class="control-label col-md-3" for="manufacturer">Manufacturer:</label>
+					<label class="control-label col-md-3" for="category">Category:</label>
 					<div class="col-md-6">
-						<input type="text" class="form-control" id="manufacturer" name="manufacturer" value="<?= set_value('manufacturer');?>"/>
+						<input type="text" class="form-control" id="category" name="category" value="<?= set_value('category');?>"/>
 					</div>
 				</div>
 				<div class="form-group">

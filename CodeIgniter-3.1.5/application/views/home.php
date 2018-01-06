@@ -77,6 +77,8 @@
 											<select class="form-control" id="sort" name="sort" disabled>
 												<option value="newest">Newest</option>
 												<option value="oldest">Oldest</option>
+												<option value="highest">Highest Price</option>
+												<option value="lowest">Lowest Price</option>
 											</select>
 										</div>
 									</div>

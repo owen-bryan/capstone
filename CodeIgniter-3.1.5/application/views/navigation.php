@@ -14,7 +14,7 @@
 				<? } ?>
 				<? if (isset($loggedIn) && $loggedIn != false) { ?>
 				<li><a href="<?= base_url() . "index.php?c=PostAnAd" ?>">Post an Ad</a></li>
-				<li><a href="header.html">Messages</a></li>
+				<li><a href="<?= base_url() . "index.php?c=messages&m=inbox" ?>">Messages</a></li>
 				<li><a href="<?= base_url() . "index.php?c=edit&m=edit_user" ?>">Account</a></li>
 				<li><a href="<?= base_url() . "index.php?c=search&m=display&user=$username" ?>">My ads</a></li>
 				<? if($admin){ ?>

@@ -1,6 +1,8 @@
 <?php 
 defined('BASEPATH') or exit('No direct script access allowed');
-
+/*
+	Class by: Owen Bryan, 000340128.
+*/
 class Signup extends CI_Controller {
 	
 	var $TPL;
@@ -29,7 +31,9 @@ class Signup extends CI_Controller {
 		}
 		
 	}
-	
+	/*
+		Main ad user method. It validates and ads a new user to the database.
+	*/
 	public function add_user()
 	{
 		$this->form_validation->set_rules('uname', 'Username', 'required|callback_is_available');
@@ -97,7 +101,9 @@ class Signup extends CI_Controller {
 			$this->template->show("signup", $this->TPL);
 		}
 	}
-	
+	/* 
+		This method checks to see if the username is available.
+	*/
 	public function is_available($str)
 	{
 		$exists = $this->db->like('user_name', $str)
@@ -115,6 +121,9 @@ class Signup extends CI_Controller {
 		}
 	}
 	
+	/*
+		This function checks if the passwords match.
+	*/
 	public function match_password($pass)
 	{
 		
@@ -129,6 +138,9 @@ class Signup extends CI_Controller {
 		}
 	}
 	
+	/*
+		This function checks if the emails match.
+	*/
 	public function match_email($email)
 	{
 		if($email != $_POST['email'])

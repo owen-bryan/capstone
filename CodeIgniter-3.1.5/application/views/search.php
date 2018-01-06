@@ -156,7 +156,9 @@
 									<div class="form-group">
 										<select class="form-control" name="sort" >
 											<option value="newest">Newest</option>
-											<option value="oldest">oldest</option>
+											<option value="oldest">Oldest</option>
+											<option value="highest">Highest Price</option>
+											<option value="lowest">Lowest Price</option>
 										</select>
 									</div>
 									<div class="form-group">

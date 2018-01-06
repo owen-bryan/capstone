@@ -1,6 +1,8 @@
 <?php 
 defined('BASEPATH') or exit('No direct script access allowed');
-
+/*
+	Class by: Owen Bryan, 000340128.
+*/
 class Edit extends CI_Controller {
 	
 	var $TPL;
@@ -29,6 +31,9 @@ class Edit extends CI_Controller {
 		edit_user();
 	}
 	
+	/*
+		Gets the details so the users can know what they are changing on their account and displays the edit user form.
+	*/
 	public function edit_user()
 	{
 		$this->TPL['page'] = "Edit account";
@@ -49,6 +54,9 @@ class Edit extends CI_Controller {
 		
 	}
 	
+	/*
+		Gets the ad so the users can know what they are changing on their ad and displays the edit ad form.
+	*/
 	public function edit_ad()
 	{
 		$this->TPL['page'] = "Edit ad";
@@ -56,33 +64,45 @@ class Edit extends CI_Controller {
 		$ad_id = $this->input->get("ad", true);
 		$user_id = $user->id;
 		
-			$this->db->select()->from("ADS")->where("ad_id", $ad_id)->where("user_id", $user_id);
-			$query = $this->db->get();
-			if($query)
-			{ 
-				$results = $query->result_array();
-				if($results)
+		
+		$this->get_ad($ad_id, $user_id);
+		$this->template->show("edit_ad", $this->TPL);
+					
+	}
+	
+	/*
+		a function to retrieve the ad and ensure this user owns the ad
+	*/
+	private function get_ad($id,$uid)
+	{
+		$this->db->select()->from("ADS")->where("ad_id", $id)->where("user_id", $uid);
+		$query = $this->db->get();
+		if($query)
+		{ 
+			$results = $query->result_array();
+			if($results)
+			{
+				if($results[0]['user_id'] == $uid)
 				{
-					if($results[0]['user_id'] == $user->id)
-					{
-						$this->TPL['ad'] = $results;
-						$this->TPL['ad_id'] = $ad_id;
-						$this->get_data();
-						$this->template->show("edit_ad", $this->TPL);
-					}
-					else
-					{
-						redirect("c=ad&ad=$ad_id");
-					}
+		
+					$this->TPL['ad'] = $results;
+					$this->TPL['ad_id'] = $id;
+					$this->get_data();
 				}
 				else
 				{
-					//redirect("c=ad&ad=$ad_id");
-					$this->template->show("edit_ad", $this->TPL);
+					redirect("c=ad&ad=$id");
 				}
 			}
+			else
+			{
+				redirect("c=ad&ad=$id");
+			}
+		}
 	}
-	
+	/*
+		Validates and checks to see what changes were made and then updates the ad in the database.
+	*/
 	public function edit_ad_submit()
 	{
 		$this->form_validation->set_rules('title', 'Ad Title', 'trim');
@@ -97,7 +117,7 @@ class Edit extends CI_Controller {
 		
 		if(trim($this->input->post('price', true)) != "")
 		{
-			$this->form_validation->set_rules('price', 'Ad Price', 'trim|callback__validate_price');
+			$this->form_validation->set_rules('price', 'Ad Price', 'trim|callback__validate_price|numeric');
 		}
 
 		if(trim($this->input->post('condition', true)) != "")
@@ -145,22 +165,23 @@ class Edit extends CI_Controller {
 			
 			if(trim($this->input->post("brand", true)) != "" && trim($this->input->post("manufacturer", true)) != "")
 			{
-				$query = $this->db->select('brand_id')->from('BRANDS')->like('brand_name',$this->input->post('brand', true))->where('manufacturer_id',$ad_data['manufacturer_id']);
+				$query = $this->db->select('brand_id')->from('BRANDS')->like('brand_name',$this->input->post('brand', true))->where('manufacturer_id',$data['manufacturer_id']);
 						$result = $this->db->get();
 						$brand = $result->row();
 				$data['brand_id'] = $brand->brand_id;
+			/* 	echo "<pre>";
+				print_r($query);
+				echo "</pre>"; */
 			}
 			
-			if(trim($this->input->post("visibility", true)) != "")
+		
+			if($this->input->post("visibility", true) == "true")
 			{
-				if($this->input->post("visibility", true))
-				{
-					$data['public'] = true;
-				}
-				else
-				{
-					$data['public'] = false;
-				}
+				$data['public'] = true;
+			}
+			else if($this->input->post("visibility", true) == "false")
+			{
+				$data['public'] = false;
 			}
 			
 			if(trim($this->input->post("description", true)) != "")
@@ -198,16 +219,20 @@ class Edit extends CI_Controller {
 		}
 		else
 		{
+			
 			$this->TPL['error'] = true;
-			$this->edit_ad();
+			$this->get_ad($this->TPL['ad_id'], $this->ion_auth->user()->row()-id);
+			$this->template->show('edit_ad', $this->TPL);
 		}
 		
 	}
 	
+	/*
+		Like in the post an ad controller this gets the data for categories, and manufacturers so the user may apply one to their ad.
+	*/
 	private function get_data()
 	{
 		$query = $this->db->query("SELECT * FROM CATEGORIES ORDER BY `category_name` ASC;");
-		$this->db->order_by("category_name", "ASC");
 		if($query)
 		{
 			$i = 0;
@@ -219,16 +244,6 @@ class Edit extends CI_Controller {
 			}
 		}
 		
-		$query = $this->db->query("SELECT DISTINCT `province` FROM `USERS` WHERE `banned`= 0 ORDER BY `province` ASC");
-		if($query)
-		{
-			$i = 0;
-			foreach($query->result_array() as $row)
-			{
-				$this->TPL['provinces'][$i] = $row['province'];
-				$i++;
-			}
-		}
 		
 		$query = $this->db->query("SELECT `manufacturer_id`, `manufacturer_name` FROM `MANUFACTURERS` ORDER BY `manufacturer_name` ASC ");
 		if($query)
@@ -248,6 +263,9 @@ class Edit extends CI_Controller {
 		
 	}
 	
+	/*
+		This validates the condition to ensure it is a real condition and not some means of adding something to the database.
+	*/
 	public function _validate_condition($str)
 	{
 		if($str == "Lightly played" || $str == "Near mint" || $str == "Moderately played" || $str == "Heavily played" || $str == "Damaged")
@@ -261,6 +279,9 @@ class Edit extends CI_Controller {
 		}
 	} 
 	
+	/*
+		This validates the manufacturer to ensure it is a real manufacturer and not some means of adding something to the database.
+	*/
 	public function _validate_manufacturer($str)
 	{
 		$exists = $this->db->like('manufacturer_name', $str)
@@ -278,6 +299,9 @@ class Edit extends CI_Controller {
 		}
 	}
 
+	/*
+		This validates the brand to ensure it is a real brand and not some means of adding something to the database.
+	*/
 	public function _validate_brand($str)
 	{
 		$exists = $this->db->like('brand_name', $str)
@@ -295,6 +319,9 @@ class Edit extends CI_Controller {
 		}
 	} 
 	
+	/*
+		This validates the price and makes sure it is greater than 0.
+	*/
 	public function _validate_price($price)
 	{
 		
@@ -308,6 +335,9 @@ class Edit extends CI_Controller {
 			return false;
 		}
 	}
+	/*
+		This function checks the category to see if it exists.
+	*/
 	public function _validate_category($str)
 	{
 		$exists = $this->db->like('category_name', $str)
@@ -326,6 +356,9 @@ class Edit extends CI_Controller {
 		}
 	}
 	
+	/* 
+		This is the upload validation it attempts to upload a image and returns true if successful.
+	*/
 	public function _upload_validation()
 	{
 		$config['upload_path'] = './uploads/';
@@ -352,6 +385,9 @@ class Edit extends CI_Controller {
 		
 	}
 	
+	/*
+		This method vaildates the user changes and then applies them to the database.
+	*/
 	public function edit_user_submit()
 	{
 		
@@ -436,6 +472,9 @@ class Edit extends CI_Controller {
 				
 	}
 	
+	/*
+		This method ensures the passwords match.
+	*/
 	public function match_password($pass)
 	{
 		
@@ -450,6 +489,9 @@ class Edit extends CI_Controller {
 		}
 	}
 	
+	/*
+		This method ensures the passwords match.
+	*/
 	public function match_email($email)
 	{
 		if($email != $_POST['email'])
