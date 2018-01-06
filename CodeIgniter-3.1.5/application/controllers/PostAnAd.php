@@ -16,7 +16,7 @@ class PostAnAd extends CI_Controller {
 		$this->TPL['page'] = "Post an ad";
 		$this->TPL['loggedIn'] = $this->ion_auth->logged_in();
 		$this->TPL['admin'] = $this->ion_auth->is_admin();
-		$this->TPL['username'] = $this->ion_auth->user()->row()->user_name;
+		
 		if($this->TPL['loggedIn'] == false)
 		{
 			$this->TPL['error'] = true;
@@ -25,6 +25,11 @@ class PostAnAd extends CI_Controller {
 			$this->TPL['page'] = "Log in";
 			
 			$this->template->show("login", $this->TPL);
+		}
+		else
+		{
+			
+			$this->TPL['username'] = $this->ion_auth->user()->row()->user_name;
 		}
 	}
 

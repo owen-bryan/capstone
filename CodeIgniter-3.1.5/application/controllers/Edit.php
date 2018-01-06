@@ -13,15 +13,20 @@ class Edit extends CI_Controller {
 		
 		$this->TPL['loggedIn'] = $this->ion_auth->logged_in();
 		$this->TPL['admin'] = $this->ion_auth->is_admin();
-		$this->TPL['username'] = $this->ion_auth->user()->row()->user_name;
+		
 		if($this->TPL['loggedIn'] == false)
 		{
+			$this->TPL['username'] = $this->ion_auth->user()->row()->user_name;
 			$this->TPL['error'] = true;
 			$this->TPL['error_msg'] = "You must be logged in to access this page";
 			
 			$this->TPL['page'] = "Log in";
 			
 			$this->template->show("login", $this->TPL);
+		}
+		else
+		{
+			$this->TPL['username'] = $this->ion_auth->user()->row()->user_name;
 		}
 		
 	}

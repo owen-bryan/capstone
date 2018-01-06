@@ -14,6 +14,14 @@ class Ad extends CI_Controller
 		$this->TPL['page'] = "Ad";
 		$this->TPL['loggedIn'] = $this->ion_auth->logged_in();
 		$this->TPL['admin'] = $this->ion_auth->is_admin();
+		if($this->TPL['loggedIn'])
+		{
+			$this->TPL['username'] = $this->ion_auth->user()->row()->user_name;
+		}
+		else
+		{
+			$this->TPL['username'] = "";
+		}
 		
 		
 	}
@@ -172,6 +180,7 @@ class Ad extends CI_Controller
 		if($query)
 		{
 			$result = $query->row_array();
+			$this->TPL['details'] = $result;
 			if($this->TPL['details']['reported'] && $this->TPL['admin'])
 			{
 				$this->TPL['details'] = $result ;

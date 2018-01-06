@@ -57,7 +57,7 @@
 				<div class="container col-md-2">
 					<? if($this->ion_auth->logged_in()) { ?>
 					<a href="<?= base_url() . "index.php?c=messages&m=new_message&ad_id=" . $details['ad_id'] . "&user=" . $details['id'] . "&username=". $details['user_name']?>" class="col-md-12 btn btn-primary">Contact user</a>
-					<? } ?>
+					<?  ?>
 					<? if($details['id'] == $this->ion_auth->user()->row()->id){ ?>
 					
 					<a href="<?= base_url() . "index.php?c=edit&m=edit_ad&ad=".$details['ad_id'] ?>" class="col-md-12 btn btn-default">Edit</a>
@@ -67,12 +67,12 @@
 					<? if($admin && $details['reported']) { ?>
 					<a href="<?= base_url() . "index.php?c=admin&m=forgive_user&user=" . $details['id'] . "&ad=" . $details['ad_id']?>" class="col-md-12 btn btn-success">Forgive user</a>
 					<a href="<?= base_url() . "index.php?c=admin&m=ban_user&user=" . $details['id'] ?>" class="col-md-12 btn btn-danger">Ban user</a>
-					<? } ?>
+					<? } }?>
 				</div>
 			</div>
 			<div class="row">
 				<div class="text-left col-md-9">
-				<? if($details['id'] != $this->ion_auth->user()->row()->id){?>
+				<? if($details['user_name'] != $username){?>
 					<a href="<?= base_url() . "index.php?c=ad&m=report_ad&ad=" .$details['ad_id'] ?>">Report this ad</a>
 				<? }?>
 				</div>

@@ -35,7 +35,7 @@
 								<ul>
 									<? if(isset($current_province)  && trim($current_province) != ""){?>
 									<? if (isset($current_city)){ ?>
-									<li><?= ucfirst($province) ?> <a href="<?= base_url() . "index.php?" . str_replace("&province=$current_province", '', str_replace("&city=$current_city" , '', $base_search)) ?>"><span class="glyphicon glyphicon-remove"></span></a></li>
+									<li><?= ucfirst($current_province) ?> <a href="<?= base_url() . "index.php?" . str_replace("&province=$current_province", '', str_replace("&city=$current_city" , '', $base_search)) ?>"><span class="glyphicon glyphicon-remove"></span></a></li>
 									<? } else { ?>
 									<li><?= ucfirst($current_province) ?> <a href="<?= base_url() . "index.php?" . str_replace("&province=".$current_province, '', $base_search) ?>"><span class="glyphicon glyphicon-remove"></span></a></li>
 									<? } } else { ?>

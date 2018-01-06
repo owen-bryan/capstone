@@ -14,7 +14,10 @@ class Search extends CI_Controller {
 		$this->TPL['page'] = "Search";
 		$this->TPL['loggedIn'] = $this->ion_auth->logged_in();
 		$this->TPL['admin'] = $this->ion_auth->is_admin();
-		$this->TPL['username'] = $this->ion_auth->user()->row()->user_name;
+		if($this->TPL['loggedIn'])
+		{
+			$this->TPL['username'] = $this->ion_auth->user()->row()->user_name;
+		}
 		if(isset($_GET['search_string']))
 		{
 			$this->TPL['search_string'] =  urldecode($this->input->get("search_string", true));
@@ -50,7 +53,7 @@ class Search extends CI_Controller {
 		}
 		if(isset($_GET['province']))
 		{
-			$this->TPL['current_province'] =  urldecode($this->input->get("province", true));
+			$this->TPL['current_province'] =  $this->input->get("province", true);
 		}
 		if(isset($_GET['city']))
 		{
@@ -212,26 +215,29 @@ class Search extends CI_Controller {
 				echo "</pre>"; */
 				for($i = 0; $i< $query->num_rows(); $i++)
 				{	
-					if($details[$i]['user_id'] == $user->id)
+					if($this->TPL['loggedIn'])
 					{
-						
-						$this->TPL['results'][$i]['id'] = $details[$i]['ad_id'];
-						$this->TPL['results'][$i]['user'] = $details[$i]['user_name'];
-						$this->TPL['results'][$i]['title'] = $details[$i]['ad_title'];
-						$this->TPL['results'][$i]['condition'] = $details[$i]['item_condition'];
-						$this->TPL['results'][$i]['price'] = $details[$i]['item_price'];
-						$this->TPL['results'][$i]['desc'] = $details[$i]['item_description'];
-						$this->TPL['results'][$i]['date'] = date("d/m/Y", strtotime($details[$i]['post_date']));
-						$this->TPL['results'][$i]['location'] = ucfirst($details[$i]['city']) . ", " . ucfirst($details[$i]['province']);
-						if($details[$i]['image_location'] != null){
-							$this->TPL['results'][$i]['img'] = "https://csunix.mohawkcollege.ca/~000340128/private/capstone-project/CodeIgniter-3.1.5/uploads/" . $details[$i]['image_location'];
+						if($details[$i]['user_id'] == $user->id)
+						{
+							
+							$this->TPL['results'][$i]['id'] = $details[$i]['ad_id'];
+							$this->TPL['results'][$i]['user'] = $details[$i]['user_name'];
+							$this->TPL['results'][$i]['title'] = $details[$i]['ad_title'];
+							$this->TPL['results'][$i]['condition'] = $details[$i]['item_condition'];
+							$this->TPL['results'][$i]['price'] = $details[$i]['item_price'];
+							$this->TPL['results'][$i]['desc'] = $details[$i]['item_description'];
+							$this->TPL['results'][$i]['date'] = date("d/m/Y", strtotime($details[$i]['post_date']));
+							$this->TPL['results'][$i]['location'] = ucfirst($details[$i]['city']) . ", " . ucfirst($details[$i]['province']);
+							if($details[$i]['image_location'] != null){
+								$this->TPL['results'][$i]['img'] = "https://csunix.mohawkcollege.ca/~000340128/private/capstone-project/CodeIgniter-3.1.5/uploads/" . $details[$i]['image_location'];
+								
+							}
+							else
+							{
+								$this->TPL['results'][$i]['img'] = "https://csunix.mohawkcollege.ca/~000340128/private/capstone-project/CodeIgniter-3.1.5/uploads/default.jpg";
+							}
 							
 						}
-						else
-						{
-							$this->TPL['results'][$i]['img'] = "https://csunix.mohawkcollege.ca/~000340128/private/capstone-project/CodeIgniter-3.1.5/uploads/default.jpg";
-						}
-						
 					}
 					else if($details[$i]['public'] == true && $details[$i]['sold'] == false)
 					{
@@ -290,7 +296,7 @@ class Search extends CI_Controller {
 				{
 					$this->get_condition();
 				}
-				if(!$this->input->get("manufacturer",true) || trim($this->TPL['current_current_manufacturer']) == "")
+				if(!$this->input->get("manufacturer",true) || trim($this->TPL['current_manufacturer']) == "")
 				{
 					$this->get_manufacturers();
 				}
