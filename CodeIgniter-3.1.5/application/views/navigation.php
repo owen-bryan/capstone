@@ -14,9 +14,10 @@
 				<? } ?>
 				<? if (isset($loggedIn) && $loggedIn != false) { ?>
 				<li><a href="<?= base_url() . "index.php?c=PostAnAd" ?>">Post an Ad</a></li>
-				<li><a href="header.html">Messages</a></li>
-				<li><a href="header.html">Account</a></li>
-				<? if($_SESSION['access_level'] == "admin"){ ?>
+				<li><a href="<?= base_url() . "index.php?c=messages&m=inbox" ?>">Messages</a></li>
+				<li><a href="<?= base_url() . "index.php?c=edit&m=edit_user" ?>">Account</a></li>
+				<li><a href="<?= base_url() . "index.php?c=search&m=display&user=$username" ?>">My ads</a></li>
+				<? if($admin){ ?>
 				<li><a href="<?= base_url() . "index.php?c=Admin" ?>">Admin</a></li>
 				<? } ?>
 				<li><a href="<?= base_url() . "index.php?c=Login&m=log_out"?>">Log out</a></li>
@@ -26,9 +27,11 @@
 				<? } ?>
 			</ul>
 			<? if ($page != "Home") { ?>
-			<form class="navbar-form navbar-right">
+			<form class="navbar-form navbar-right" action="<?= base_url() . "index.php" ?>" method="get">
+				<input type="hidden" value="search" name="c"/>
+				<input type="hidden" value="display" name="m"/>
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Search">
+					<input type="text" name="search_string" class="form-control" placeholder="Search">
 				</div>
 				<div class="form-group">
 					<button type="submit" class="form-control btn btn-default">Submit</button>

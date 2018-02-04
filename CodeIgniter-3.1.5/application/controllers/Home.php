@@ -1,6 +1,8 @@
 <?php 
 defined('BASEPATH') or exit('No direct script access allowed');
-
+/*
+	Class by: Owen Bryan, 000340128.
+*/
 class Home extends CI_Controller {
 	
 	var $TPL;
@@ -10,16 +12,22 @@ class Home extends CI_Controller {
 		parent::__construct();
 		
 		$this->TPL['page'] = "Home";
-		$this->TPL['loggedIn'] = $this->user_auth->validSessionExists();
-		
+		$this->TPL['loggedIn'] = $this->ion_auth->logged_in();
+		$this->TPL['admin'] = $this->ion_auth->is_admin();
+		if($this->TPL['loggedIn'])
+		{
+			$this->TPL['username'] = $this->ion_auth->user()->row()->user_name;
+		}
 		
 		
 	}
 	
-	
+	/* 
+		Get the data for robust searching
+	*/
 	private function get_data()
 	{
-		$query = $this->db->query("SELECT * FROM CATEGORIES;");
+		$query = $this->db->query("SELECT * FROM CATEGORIES ORDER BY `category_name` ASC;");
 		
 		if($query)
 		{
@@ -32,7 +40,7 @@ class Home extends CI_Controller {
 			}
 		}
 		
-		$query = $this->db->query("SELECT DISTINCT `province` FROM `USERS` WHERE `banned`= 0");
+		$query = $this->db->query("SELECT DISTINCT `province` FROM `USERS` WHERE `banned`= 0 ORDER BY `province` ASC");
 		
 		if($query)
 		{
@@ -44,7 +52,7 @@ class Home extends CI_Controller {
 			}
 		}
 		
-		$query = $this->db->query("SELECT `manufacturer_id`, `manufacturer_name` FROM `MANUFACTURERS`");
+		$query = $this->db->query("SELECT `manufacturer_id`, `manufacturer_name` FROM `MANUFACTURERS` ORDER BY `manufacturer_name` ASC");
 		
 		if($query)
 		{
