@@ -1,4 +1,22 @@
 <div class="container-fluid  col-md-offset-4 col-md-4">
+	<? if(isset($error)) { ?>
+	<div class="row">
+		<div class="container panel panel-danger col-md-offset-1 col-md-10">
+			<? if(isset($error_msg)) { ?>
+			<p class="text-danger"><?= $error_msg ?></p>
+			<? } ?>
+		</div>
+	</div>
+	<? } ?>
+	<? if(isset($success)) { ?>
+	<div class="row">
+		<div class="container panel panel-success col-md-offset-1 col-md-10">
+			<? if(isset($success_msg)) { ?>
+			<p class="text-success"><?= $success_msg ?></p>
+			<? } ?>
+		</div>
+	</div>
+	<? } ?>
 	<div class="row">
 		<div class= "container panel panel-default col-md-10 col-md-offset-1">
 			<h2>Log in</h2>

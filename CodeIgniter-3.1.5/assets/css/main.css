@@ -8,3 +8,11 @@
 .center-fix {
 	float: none;
 }
+
+.ad_image {
+	max-height: 160px;
+	max-width: 200px;
+	height: auto;
+	width: 100%;
+	display: block;
+}
