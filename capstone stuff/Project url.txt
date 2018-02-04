@@ -1,0 +1,10 @@
+Project running at: https://csunix.mohawkcollege.ca/~000340128/private/capstone-project/CodeIgniter-3.1.5/
+
+test credentials:
+	username: testuser
+	password: test
+	role: user
+
+	username: testadmin
+	password: test
+	role: admin
