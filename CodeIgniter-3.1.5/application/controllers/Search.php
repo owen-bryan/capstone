@@ -217,7 +217,7 @@ class Search extends CI_Controller {
 				{	
 					if($this->TPL['loggedIn'])
 					{
-						if($details[$i]['user_id'] == $user->id)
+						if($details[$i]['user_id'] == $user->id || ($details[$i]['user_id'] != $user->id && $details[$i]['public'] == true && $details[$i]['sold'] == false))
 						{
 							
 							$this->TPL['results'][$i]['id'] = $details[$i]['ad_id'];
